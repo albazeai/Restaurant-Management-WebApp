@@ -1,0 +1,47 @@
+﻿
+@using Microsoft.AspNetCore.Identity;
+
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a class="btn btn-success" asp-action="CreateRole">Create New Role</a>
+    <a class="btn btn-info" asp-action="AssignRole">Assign Role To User</a>
+</p>
+
+<h1>Available Roles</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Role @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Manage Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Manage", "ManageRoles", new { id = item.Name }) |
+                    @Html.ActionLink("Delete", "DeleteRole", new { id = item.Id })  
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

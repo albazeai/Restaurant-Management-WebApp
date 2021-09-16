@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANNgmsLrjDEuWRQRQeQl72wAAAAACAAAAAAAQZgAAAAEAACAAAAAUj355vb3XRgNlb6rjIdm++/lFi7Tech3KZPVRWfEOhwAAAAAOgAAAAAIAACAAAACNVhLcLN3hed+mqRYB2MpE9NaYBxTsdqszx9jbcjLZb4AAAABmUr/fgd17O8Gxascu7TKSHy09K94hoe8v0yfhV99TgzLlXEaEuJ7bBB26DdHPrMlapYZf5awsUxUBJ35F3DcR0yGsGC22PZgjiilHQVS8IOtBCO6kBPCuf4NXws7/QIjZFXlcln8RppaH5ZyFl0H7Ao+yL2UE5bOiIwUFJvEhjEAAAABj4sQVAkTfynwEa9rWpp/WumQvZjHNdh4N3KL9443by19E+Scr9ZFdJekOp/ZkbTvOc1wAtsrNSG6bLfogFvwP</EncryptedPassword>
+    <History>True|2021-08-19T23:43:16.9672801Z;False|2021-08-19T18:42:03.2872242-05:00;True|2021-08-19T18:38:52.9311953-05:00;True|2021-08-19T17:00:44.8123830-05:00;True|2021-08-19T16:53:39.7929194-05:00;True|2021-08-19T01:18:09.8551579-05:00;True|2021-08-19T01:15:03.9607240-05:00;False|2021-08-19T01:12:11.8992230-05:00;True|2021-08-19T01:10:00.5378758-05:00;True|2021-08-19T00:06:52.2696841-05:00;True|2021-08-18T23:59:52.0027802-05:00;True|2021-08-18T23:42:45.7484656-05:00;True|2021-08-18T20:48:52.6831755-05:00;True|2021-08-18T20:38:50.6232575-05:00;True|2021-08-18T20:36:18.6862653-05:00;True|2021-08-18T20:34:03.6747576-05:00;True|2021-08-18T18:04:51.0518099-05:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=tcp:restaurantserver2.database.windows.net,1433%3bInitial Catalog=Restaurant%3bPersist Security Info=False%3bUser ID=mohamad%3bPassword=2021%40Azure-New%40199700%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="ProductionConnection">
+      <Value>Server=tcp:restaurantserver2.database.windows.net,1433%3bInitial Catalog=Restaurant%3bPersist Security Info=False%3bUser ID=mohamad%3bPassword=2021%40Azure-New%40199700%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

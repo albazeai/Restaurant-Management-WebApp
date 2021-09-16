@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> userManager
+
+
+@{
+    ViewData["Title"] = "ManageRoles";
+}
+
+
+<div>
+    <h1 class="text-success">@ViewBag.RoleName Role</h1>
+    <hr />
+    @{
+        IdentityRole role = ViewBag.RoleName;
+
+        var users = await userManager.GetUsersInRoleAsync(role.Name);
+        if (users != null)
+        {
+            <p class="text-info">Assigned Users:</p>
+            foreach (var user in users)
+            {
+                <h3>@user <span class="float-right btn btn-danger text-light"> @Html.ActionLink("Remove", "ManageUserRoles", new { roleName = role, userName = user })</span></h3>
+            }
+        }
+    }
+
+</div>
+<div class="mt-5">
+    <a class="btn btn-primary" asp-action="Index">Back</a>
+</div>

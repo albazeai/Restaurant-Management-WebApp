@@ -1,0 +1,67 @@
+﻿@model Restaurant.Models.Food
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Food</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FoodId" />
+            <div class="form-group">
+                <label asp-for="FoodName" class="control-label"></label>
+                <input asp-for="FoodName" class="form-control" />
+                <span asp-validation-for="FoodName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipes" class="control-label"></label>
+                <textarea asp-for="Recipes" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Recipes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FoodImage" class="control-label"></label>
+                <input asp-for="FoodImage" type="file" class="form-control-file" />
+                <span asp-validation-for="FoodImage" class="text-danger"></span>
+            </div>
+            <div>
+                @{
+                    try
+                    {
+                        var base64 = Convert.ToBase64String(Model.FoodImage);
+                        var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src='@imgSrc' style="max-width:500px;max-height:500px" />
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

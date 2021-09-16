@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "AssignRole";
+}
+
+<h1>Assign Role</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignRole">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<input type="hidden" asp-for="Id" />*@
+        <div class="form-group">
+            <label class="control-label">User</label>
+            <select name="userName" asp-items="ViewBag.Users" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Role Name</label>
+            <select name="roleName" asp-items="ViewBag.Roles" class="form-control"></select>
+        </div>
+
+            <div class="form-group">
+                <input type="submit" value="Assign" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

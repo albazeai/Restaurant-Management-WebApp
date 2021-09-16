@@ -1,0 +1,147 @@
+﻿@*@model ViewModel*@
+@*@model IEnumerable<Restaurant.Models.Table>*@
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*<header>
+        <partial name="_CashierNav" />
+    </header>*@
+
+
+<h1>Cashier Home</h1>
+
+
+
+
+
+<div class="container">
+    <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+    <div class="row">
+        <div class="col-sm-5 col-md-5">
+            <div class="border border-success">
+                <div class="" id="table-info"></div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2">
+        </div>
+        <div class="col-sm-5 col-md-5">
+            <div class="border border-success payContainer">
+                <input type="hidden" value="0" id="flagBtn" />
+                <div class="" id="itemsContainer"></div>
+                <h2 class="bg-success text-center text-light p-2">TOTAL</h2>
+                <div class="alert alert-success">
+                    <h3 class="" id="">Total: $ <span id="totalSep">0.00</span></h3>
+                    <h3 class="" id="">HST(13%): $ <span id="hst">0.00</span></h3>
+                    <hr />
+                    <h2 class="" id="">Subtotal: $ <span id="totalAmount">0.00</span></h2>
+                </div>
+                <div>
+                    <form action="/Cashier/SeparatePays" method="post">
+                        <input type="hidden" name="id" value="" id="tableId" />
+                        <input type="hidden" name="total" value="" id="finalSepTotal" />
+                        <input type="hidden" name="paidItems" value="" id="paidItemsInput" />
+                        <hr />
+                        <input type="submit" value="Process" class="btn btn-success m-2" />
+                    </form>
+                    <hr />
+                    <a href="/Cashier" class="btn btn-danger m-2">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    @*<script>
+
+            $(document).ready(function () {
+
+                $("#tableSelecterIndex").change(function () {
+                    let tableId = isInteger($("#tableSelecterIndex").val());
+                    if (tableId) {
+                        let id = $("#tableSelecterIndex").val();
+                        $.ajax({
+                            type: "Post",
+                            url: "/Cashier/TableDetails",
+                            data: { id: id },
+                            success: function (data) {
+                                loadItems(data);
+                            },
+                            error: function (req, status, error) {
+                                console.log(msg);
+                            }
+                        });
+                    } else {
+                        $("#table-info").html("");
+
+                    }
+
+                });
+
+                /**
+                 *
+                 *  validation method that validate the any integer value. (mostly used for table Id)
+                 */
+                function isInteger(value) {
+                    return /^\d+$/.test(value);
+                }
+
+                function loadItems(data1) {
+                    if (data1 !== null) {
+                        $("#table-info").html("");
+                        $("#table-info").append('<h2 class="bg-info text-center text-light p-2">Table - ' + data1.tableId + '</h2>');
+                        let item = "";
+                        let data = data1.tableItems;
+                        if (data !== null) {
+                            let i = 0;
+                            while (i < data.length) {
+                                if (data[i] !== ',') {
+                                    item += data[i];
+                                    i++;
+                                } else {
+                                    $("#table-info").append('<div class="items"> <button class="btn btn-success m-2">' + item + '</button></div>');
+                                    item = "";
+                                    i++;
+                                }
+                            }
+
+                        }
+                        $("#table-info").append('<h3 class="alert alert-success">Total: $ ' + (data1.total.toFixed(2)) + '</h3><button class="btn btn-danger m-2 removeTable" value="' + data1.tableId + '">Clear</button>');
+                    }
+                }
+
+                /* Clearing tables on clear button clicks */
+
+                $("#table-info").on("click", ".removeTable", function () {
+
+                    if (confirm("Confirm Delete?")) {
+                        let tableId = isInteger($(this).val());
+                        if (tableId) {
+                            let id = $(this).val();
+                            /* sending request to clear the table */
+                            $.ajax({
+                                type: "Post",
+                                url: "/Cashier/ClearTable",
+                                data: { id: id },
+                                success: function (data) {
+                                    window.location.href = "/Cashier";
+                                },
+                                error: function (req, status, error) {
+                                    console.log(msg);
+                                }
+                            });
+                        }
+                    } else {
+
+                    }
+
+                });
+
+            });
+        </script>*@
+}

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Kitchen Index";
+}
+
+<h1 class="bg-warning text-center p-2">ORDERS</h1>
+
+<div id="main"></div>
+
+@section Scripts {
+    <script>
+
+        /* recall get messages to keep data up to date through ajax calls */
+        setInterval(
+
+            function getMessages() {
+                $.ajax({
+                    type: "Post",
+                    url: "/Kitchen/KitOrderStatus",
+                    data: {},
+                    success: function (data) {
+                        loadMessages(data);
+                    },
+                    error: function (req, status, error) {
+                        console.log(msg);
+                    }
+                });
+
+            }, 2000);
+
+        function loadMessages(messages) {
+            if (messages !== null) {
+                $("#main").html("");
+                for (let i = 0; i < messages.length; i++) {
+
+                    // Calculating the quantity of each item
+                    let item = messages[i].items.split(',');
+                    let modItems = "";
+                    for (var j = 0; j < item.length; j++) {
+                        let count = 0;
+                        let g = item[j];
+                        for (var c = 0; c < item.length; c++) {
+                            if (item[c].trim() === g.trim()) {
+                                count++;
+                            }
+                        }
+                        let y = g + " [ " + count + " ]";
+                        if (!modItems.includes(y.trim())) {
+                            modItems += y.trim();
+                            modItems += "<br>";
+                        }
+
+                    }
+
+                    if (messages[i].status.toLowerCase() === "not set") {
+                        $("#main").append('<div class="alert alert-info"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '</h1><hr/><h2 class="alert alert-danger p-2">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-danger s-update" value="' + messages[i].messageId + '">in progress</button></div>');
+                        
+                    }
+                    else if (messages[i].status.toLowerCase() === "in progress") {
+                        $("#main").append('<div class="alert alert-warning"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2>' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-success s-update" value="' + messages[i].messageId + '">Complete</button></div>');
+                    }
+                    else if (messages[i].status.toLowerCase() === "complete") {
+                        $("#main").append('<div class="alert alert-success"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2 class="">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span> ' + messages[i].notes + '</h3><hr/><button class="btn btn-success" disabled>Order Completed</button></div>');
+                    }
+                }
+
+            }
+        }
+
+        /* Updating the order status */
+        $('#main').on('click', '.s-update', function () {
+            let messageId = $(this).val();
+            let status = $(this).text();
+                $.ajax({
+                    type: "Post",
+                    url: "/Kitchen/SetOrderStatus",
+                    data: { id: messageId, status: status },
+                    success: function (data) {
+
+                    },
+                    error: function (req, status, error) {
+                        console.log(msg);
+                    }
+                });
+
+        });
+    </script>
+}

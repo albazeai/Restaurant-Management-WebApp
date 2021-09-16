@@ -1,0 +1,194 @@
+﻿@model Restaurant.Models.ApplicationUser
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> userManager
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Role
+        </dt>
+
+        @{
+            var user = userManager.Users.FirstOrDefault(x => x.UserName == Model.UserName);
+            var user2 = await userManager.GetRolesAsync(user);
+            if (user2.Count() > 0)
+            {
+                foreach (var user4 in user2)
+                {
+
+                    <dd class="col-sm-10">@user4</dd>
+
+                }
+            }
+            else
+            {
+                <dd class="col-sm-10">Not-Set</dd>
+            }
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StreetNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StreetNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Province)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Province)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+    </dl>
+    @*<dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.BirthDate)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.StreetNumber)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.StreetNumber)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.PostalCode)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.City)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Province)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Province)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Notes)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+        </dl>*@
+
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

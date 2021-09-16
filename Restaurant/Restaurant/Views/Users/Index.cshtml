@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Restaurant.Models.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> userManager
+@inject RoleManager<IdentityRole> roleManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a class="btn btn-info" asp-area="Identity" asp-page="/Account/Register">Register New User</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Role
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreetNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Province)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var user = userManager.Users.FirstOrDefault(x => x.UserName == item.UserName);
+            var user2 = await userManager.GetRolesAsync(user);
+            <tr>
+                @{
+                    if (user2.Count() > 0)
+                    {
+                        foreach (var user4 in user2)
+                        {
+
+                            <td>@user4</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>Not-Set</td>
+                    }
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostalCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Province)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) | 
+                    @Html.ActionLink("SetNewPassword", "SetNewPassword", new { id=item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

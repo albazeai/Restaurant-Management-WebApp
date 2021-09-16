@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Restaurant.Models.Message>
+
+
+@{
+    ViewData["Title"] = "Order Status";
+}
+
+<h1 class="bg-warning text-center p-2">ORDERS</h1>
+<div id="main"></div>
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+<script>
+    $(document).ready(function () {
+
+        /* recall get messages to keep data up to date through ajax calls */
+        setInterval(
+
+            function getMessages() {
+                $.ajax({
+                    type: "Post",
+                    url: "/Cashier/GetMessages",
+                    data: {},
+                    success: function (data) {
+                        loadMessages(data);
+                    },
+                    error: function (req, status, error) {
+                        //console.log(msg);
+                    }
+                });
+
+            }, 1000);
+
+        function loadMessages(messages) {
+            if (messages !== null) {
+                $("#main").html("");
+                for (let i = 0; i < messages.length; i++) {
+
+                    // Calculating the quantity of each item
+                    let item = messages[i].items.split(',');
+                    let modItems = "";
+                    for (var j = 0; j < item.length; j++) {
+                        let count = 0;
+                        let g = item[j];
+                        for (var c = 0; c < item.length; c++) {
+                            if (item[c].trim() === g.trim()) {
+                                count++;
+                            }
+                        }
+                        let y = g + " [ " + count + " ]";
+                        if (!modItems.includes(y.trim())) {
+                            modItems += y.trim();
+                            modItems += "<br>";
+                        }
+
+                    }
+
+                    if (messages[i].status.toLowerCase() === "not set") {
+                        $("#main").append('<div class="alert alert-info"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '</h1><hr/><h2 class="alert alert-danger p-2">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-danger cancel" value="' + messages[i].messageId + '">Cancel</button></div>');
+                    }
+                    else if(messages[i].status.toLowerCase() === "in progress") {
+                        $("#main").append('<div class="alert alert-warning"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2 class="">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button type="button" class="btn btn-secondary" disabled>in progress</button></div>');
+                    }
+                    else if (messages[i].status.toLowerCase() === "complete"){
+                        $("#main").append('<div class="alert alert-success"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2 class="">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-success status-update" value="' + messages[i].messageId + '">Picked Up</button></div>');
+                    }
+                }
+
+            }
+        }
+        /* Updating the order status on order completed */
+        $('#main').on('click', '.status-update', function () {
+            let messageId = $(this).val();
+            let status = $(this).text();
+            $.ajax({
+                type: "Post",
+                url: "/Cashier/SetOrderStatus",
+                data: { id: messageId, status: status },
+                success: function (data) {
+
+                },
+                error: function (req, status, error) {
+                   // console.log(msg);
+                }
+            });
+
+        });
+
+        //function loadItems(data) {
+        //    let item = "";
+        //    let i = 0;
+        //    while (i < data.length) {
+        //        if (data[i] !== ',') {
+        //            item += data[i];
+        //            i++;
+        //        } else {
+        //            //$("#main").append('<div class=""><button class="btn btn-success m-2">' + item + '</button></div>');
+        //            $("#main").append('<div class=""><button class="btn btn-success m-2">' + item + '</button></div>');
+        //            //$("#main").append('<button class="btn btn-success m-2">' + item + '</button>');
+        //            item = "";
+        //            i++;
+        //        }
+        //    }
+        //}
+
+        /* Removing message using cancel button */
+        $('#main').on('click', '.cancel', function () {
+            if (confirm("Confirm Delete?")) {
+                let messageId = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Cashier/RemoveMessage",
+                    data: { id: messageId },
+                    success: function (data) {
+                        //alert("Removed Success!");
+                    },
+                    error: function (req, status, error) {
+                        //console.log(msg);
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>
+}

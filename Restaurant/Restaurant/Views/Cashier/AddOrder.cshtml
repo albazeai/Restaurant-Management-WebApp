@@ -1,0 +1,416 @@
+﻿@*@model IEnumerable<Capstone1.Models.Table>
+    @model dynamic*@
+
+@model ViewModel
+
+
+@{
+    ViewData["Title"] = "AddOrder";
+}
+
+
+
+@*<div class="bg-info p-3">
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menu
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" asp-controller="Drinks" asp-action="Index">Drinks</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-controller="Drinks" asp-action="Index">Foods</a>
+            </div>
+        </div>
+    </div>*@
+
+
+<style>
+    #custom-left{height: 500px;}
+    #custom-right {
+        height: 500px;
+    }
+</style>
+<h1 class="bg-success text-center text-light p-3">Add Order</h1>
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <div class="form-group">
+                        <select class="custom-select custom-select-lg" id="tableSelecter">
+                            <option>Select-Table</option>
+                            @{
+                                try
+                                {
+                                    foreach (Table item in Model.Tables)
+                                    {
+                                        <option value="@item.TableId">Table - @item.TableId</option>
+                                    }
+                                }
+                                catch (NullReferenceException)
+                                {
+
+                                }
+
+                            }
+
+                        </select>
+                    </div>
+                </li>
+
+                <li class="nav-item ml-2">
+                    <div class="form-group">
+                        <select class="custom-select custom-select-lg" id="menuOptions">
+                            <option>Menu</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="foods">Foods</option>
+
+
+                        </select>
+                    </div>
+                    @*<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li class="nav-item">
+                            <a class="dropdown-item" asp-area="" asp-controller="Drinks" asp-action="Index">Drinks</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="nav-item">
+                            <a class="dropdown-item" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>*@
+                </li>
+
+            </ul>
+        </div>
+        <div class="float-right mr-2">
+            @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
+            <button class="btn btn-success border border-white" id="saveBtn">Save</button>
+        </div>
+        @*send copy to kitchen form*@
+        @*<div class="float-right mr-2">
+            <button class="btn btn-success border border-white" id="toKitchenBtn">Save & Kitchen</button>
+        </div>
+        <div class="bg-light m-2" id="notesForm">
+            <form class="p-3" id="kitchenForm">
+                <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
+                <div class="form-group">
+                    <label for="notes">Order Notes (optional):</label>
+                    <textarea class="form-control" id="notes" rows="3"></textarea>
+                </div>
+                <button class="btn btn-warning" type="reset">Clear</button>
+                <button class="btn btn-success ml-1" type="submit">Submit</button>
+            </form>
+        </div>*@
+
+        @*statrt test for modal box*@
+
+        <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success border border-white mr-2" data-toggle="modal" data-target="#staticBackdrop">
+        Save & Kitchen
+    </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Kitchen Orders</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="p-3" id="kitchenForm">
+                            <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
+                            <div class="form-group">
+                                <label for="notes">Order Notes (optional):</label>
+                                <textarea class="form-control" id="notes" rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-warning" type="reset">Clear</button>
+                            <button class="btn btn-success ml-1" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*end test*@
+
+
+        <div class="float-right">
+            <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="border border-danger overflow-auto mb-2" id="custom-left">
+
+            </div>
+
+            <div class="border border-success mb-2 p-2">
+                <h2 class="bg-success text-center text-light p-2">TOTAL</h2>
+                <h2 class="text-center" id="total">0.00</h2>
+            </div>
+        </div>
+
+        @*secound column*@
+        <div class="col-sm-8">
+            <div class="border border-success overflow-auto" id="custom-right">
+                @*drinks section*@
+                <div id="drinksSection" class="">
+                    <h1 class="bg-warning p-2">Drinks Menu</h1>
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Soft-Beverages</h2>
+                        <div class="p-3">
+                            @{
+                                try
+                                {
+                                    foreach (Drink item in Model.Drinks)
+                                    {
+                                        if (item.Category.CategoryName.Trim().Contains("Beverage"))
+                                        {
+                                            var val = item.DrinkName + " $" + item.Price + ",";
+                                            <button class="btn btn-success m-2 buttons" value="@val">@item.DrinkName $@item.Price</button>
+                                            @*<button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>*@
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        </div>
+                       
+                    </div>
+
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Fruits-Beverages</h2>
+                        <div class="p-3">
+                            @{
+                                try
+                                {
+                                    foreach (Drink item in Model.Drinks)
+                                    {
+                                        if (item.Category.CategoryName.Trim().Contains("Fruit"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Alcoholic</h2>
+                        @*<div class="p-3">
+                            @{
+                                try
+                                {
+                                    foreach (Drink item in Model.Drinks)
+                                    {
+                                        if (item.Category.CategoryName.Trim().Contains("Pizza"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>
+
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        </div>*@
+                    </div>
+
+                </div>
+
+                @*food section*@
+            <div id="foodsSection" class="">
+                <h1 class="bg-warning p-2">Food Menu</h1>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Pizza</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Pizza"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Burger</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Burger"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Chicken</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Chicken"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Beef</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Beef"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Fries</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Fries"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Soup</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Soup"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="border border-success">
+                    <h2 class="bg-info text-light text-center p-3">Sea-Food</h2>
+                    <div class="p-3">
+                        @{
+                            try
+                            {
+                                foreach (Food item in Model.Foods)
+                                {
+                                    if (item.Category.CategoryName.Trim().Contains("Seafood"))
+                                    {
+                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    </div>
+                </div>
+              </div> 
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

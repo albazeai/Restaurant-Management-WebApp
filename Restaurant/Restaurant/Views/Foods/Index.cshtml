@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Restaurant.Models.Food>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a class="btn btn-info" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FoodName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FoodImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FoodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipes)
+            </td>
+            <td>
+                @{
+                    try
+                    {
+                        var base64 = Convert.ToBase64String(item.FoodImage);
+                        var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src='@imgSrc' style="max-width:100px;max-height:100px" />
+                    }
+                    catch (ArgumentNullException)
+                    {
+
+
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FoodId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FoodId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FoodId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

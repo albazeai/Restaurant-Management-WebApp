@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Restaurant.Models.Food>
+
+@{
+    ViewData["Title"] = "FoodMenu";
+}
+
+<h1>Food Menu</h1>
+<hr />
+
+<form asp-action="FoodMenu" method="post" class="form-inline">
+    <div class="form-group">
+        <strong>Search By Category: &emsp;</strong>
+        <select name="value1" asp-items="@ViewBag.Categories" class="form-control"></select>
+    </div>
+    <div class="form-group ml-2">
+        <input type="submit" value="Filter" class="btn btn-primary" /> &emsp;|&emsp;
+        <a asp-action="FoodMenu"> All Items</a>
+    </div>
+</form>
+<hr />
+<div class="p-3  border border-warning">
+
+    @{
+        try
+        {
+            if(!string.IsNullOrEmpty(ViewBag.SelectedCategory))
+            {
+                <h2 class="bg-info text-light text-center p-3">@ViewBag.SelectedCategory</h2>
+
+            }
+            foreach (Food item in Model)
+            {
+            <div class="border border-success m-2"><button data-toggle="modal" data-target="#exampleModal" class="btn btn-success m-2 fbuttons" value="@item.FoodId">@item.FoodName</button></div>
+
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+</div>
+
+<!-- Button trigger modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="float-left">
+                    <img src="#" alt="" id="fimage" />
+                </div>
+                <div class="float-right">
+                    <h2 class="text-center text-light bg-info p-2">Recipe</h2>
+                    <h4 id="itemDetails"></h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        /* Adding items */
+        $(".fbuttons").click(function () {
+
+            let id = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: 'FoodDetails',
+                data: { id: id },
+                success: function (data) {
+                    let rec = "&#9830;" + data.recipes.split(',').join("<br>&#9830; ");
+                    $("#modalTitle").html(data.foodName);
+                    $("#itemDetails").html(rec);
+                    $('#fimage').attr('src', `data:image/png;base64,${data.foodImage}`);
+                    $('#fimage').css({ "height": "200px", "width": "200px" });
+
+                },
+                error: function (req, status, error) {
+                    console.log(msg);
+                }
+            });
+
+        });
+    </script>
+}
