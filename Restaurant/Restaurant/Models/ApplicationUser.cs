@@ -20,6 +20,7 @@ namespace Restaurant.Models
         public string LastName { get; set; }
 
         [Display(Name = "Birth Date")]
+        //[Column(TypeName = "date")]   // need to run migration
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 

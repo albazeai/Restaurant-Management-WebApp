@@ -318,6 +318,7 @@ namespace Restaurant.Controllers
                     }
 
                     string updateItems = "";
+                    existItems = existItems.Where(s => s != " ").ToArray();
                     foreach (var item in existItems)
                     {
                         if (item != null)

@@ -95,7 +95,7 @@ $(document).ready(function () {
                 '</div > ');
         }
     }
-
+    
     /* Clearing tables on clear button clicks */
 
     $("#table-info").on("click", ".removeTable", function () {
