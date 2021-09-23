@@ -23,8 +23,6 @@ namespace Restaurant.Controllers
         {
             ViewModel views = new ViewModel();
             views.Tables = await _context.Tables.Where(t => t.TableItems != null).ToListAsync();
-            //var tables = await _context.Tables.Where(t => t.TableItems != null).ToListAsync();
-
 
             return View(views);
         }
@@ -37,31 +35,15 @@ namespace Restaurant.Controllers
             views.Tables = await _context.Tables.ToListAsync();
 
             return View(views);
-
-            //var database = _context.Drinks.Include(d => d.Category);
-            //return View(await database.ToListAsync());
         }
 
         [HttpPost]
         public async Task<IActionResult> AddOrder(Table table)
         {
-
-            // add order to table items 
-
-            //if (id != table.TableId)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //var seelctedTable = await _context.Tables.FindAsync(table.TableId);
-                    //if (seelctedTable == null)
-                    //{
-                    //    return NotFound();
-                    //}
                     _context.Update(table);
                     await _context.SaveChangesAsync();
                 }
@@ -86,47 +68,39 @@ namespace Restaurant.Controllers
         [HttpPost]
         public async Task<Table> TableDetails(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            var table = await _context.Tables
-                .FirstOrDefaultAsync(m => m.TableId == id);
-            //table.TableItems = null;
-            //table.Total = 0;
-            //_context.Update(table);
-            //await _context.SaveChangesAsync();
-            //if (table == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(table);
-            return table;
+            try
+            {
+                var table = await _context.Tables.FirstOrDefaultAsync(m => m.TableId == id);
+                return table;
+            }
+            catch (Exception)
+            {
+                return null;
+                
+            }
+  
         }
 
 
         [HttpPost]
         public async Task<Table> ClearTable(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+            try
+            {
+                var table = await _context.Tables.FirstOrDefaultAsync(m => m.TableId == id);
+                if (table != null)
+                {
+                    table.TableItems = null;
+                    table.Total = 0;
+                    _context.Update(table);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
 
-            var table = await _context.Tables
-                 .FirstOrDefaultAsync(m => m.TableId == id);
-            table.TableItems = null;
-            table.Total = 0;
-            _context.Update(table);
-            await _context.SaveChangesAsync();
-            //if (table == null)
-            //{
-            //    return NotFound();
-            //}
+            }
 
-            //return View(table);
             return null;
         }
 
@@ -184,23 +158,7 @@ namespace Restaurant.Controllers
         [HttpPost]
         public IActionResult GetMessages()
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
             var messages = _context.Messages.ToList();
-
-            //table.TableItems = null;
-            //table.Total = 0;
-            //_context.Update(table);
-            //await _context.SaveChangesAsync();
-            //if (table == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(table);
             return Ok(messages);
         }
 
@@ -237,11 +195,6 @@ namespace Restaurant.Controllers
             }
             message.Status = status;
 
-            //if (id != message.MessageId)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
@@ -251,23 +204,14 @@ namespace Restaurant.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    //if (!MessageExists(message.MessageId))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
+
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(message);
             return null;
         }
 
-        /******************************************         Important Need to be Modified for the 'Total' accuracy ****************************/
-        // note : process the total of each item separatly! ex: Water $1.00 
+
         [HttpPost]
         public async Task<IActionResult> SeparatePays( int id, string paidItems, double total)
         {
@@ -287,7 +231,6 @@ namespace Restaurant.Controllers
                     for (int i = 0; i < currentItems.Length; i++)
                     {
                         string item = currentItems[i].Trim();
-                        //var exist = _context.Tables.FirstOrDefault(x => x. == id && x.TableItems.Trim() != null);
                         for (int c = 0; c < existItems.Length; c++)
                         {
                             if (existItems[c] != null && existItems[c].Trim().Equals(item))

@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
 
+    let tableNumber = 0;
+
     $("#tableSelecterIndex").change(function () {
         let tableId = isInteger($("#tableSelecterIndex").val());
         if (tableId) {
@@ -14,7 +16,6 @@ $(document).ready(function () {
                     loadItems(data);
                 },
                 error: function (req, status, error) {
-                    //console.log(msg);
                 }
             });
         } else {
@@ -40,6 +41,7 @@ $(document).ready(function () {
      */
     function loadItems(data1) {
         if (data1 !== null) {
+            tableNumber = data1.tableId;
             $("#table-info").html("");
             $("#itemsContainer").html("");
             setTotal(2, 0.00); // reset total
@@ -75,16 +77,26 @@ $(document).ready(function () {
 
                 let i = 0;
                 while (i < modItems.length) {
-                    let val = parallelItems[i];
+                    let val = parallelItems[i]; // array declared up ^ to store items with comma and use them as the button values.
                     $("#table-info").append('<div class="items"> <button class="btn btn-success m-2 buttons2" value = "' + val + '">' + modItems[i] + '</button></div>');
                     i++;
                 }
 
             }
-            $("#table-info").append('<h3 class="alert alert-success">Total: $ ' + (data1.total.toFixed(2)) + '</h3><button class="btn btn-danger m-2 removeTable" value="' + data1.tableId + '">Clear Table</button><br><hr/><button class="btn btn-primary m-2 paySeparate" value="' + data1.tableId + '">Pay Individually</button>');
+            // appending the Total html elements:
+            $("#table-info").append('<div class="alert alert-success">' +
+                                        '<h3>Total: $ ' + (data1.total.toFixed(2)) + '</h3>' +
+                                        '<h3 class="">HST(13%): $ ' + (data1.total * 0.13).toFixed(2) + '</h3><hr/>' +
+                                        '<h2 class="">Subtotal: $ ' + (data1.total + (data1.total * 0.13)).toFixed(2) + '</h2>' +
+                                        '</div>');
+
+            $("#table-info").append('<div>' + 
+                '<button class= "btn btn-danger m-2 removeTable" value = "' + data1.tableId + '" > Clear Table</button > <br><hr /> ' +
+                '<button class="btn btn-primary m-2 paySeparate" value="' + data1.tableId + '" > Pay Individually</button >' +
+                '</div > ');
         }
     }
-
+    
     /* Clearing tables on clear button clicks */
 
     $("#table-info").on("click", ".removeTable", function () {
@@ -124,33 +136,74 @@ $(document).ready(function () {
     $("#table-info").on("click", ".buttons2", function () {
         let flag = $("#flagBtn").val();
         if (flag === '1') {
-            let t = $(this).val();
-            let text = t.replace(",", "");
-            $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 item2" value="' + $(this).val() + '">' + text + '</button><span class="d-none">,</span></div>');
+            orders("add", $(this).val());
             addTotal($(this).val()); // update total paidItemsInput
-            $('#paidItemsInput').val($('.items3').text());
-
+            $('#paidItemsInput').val(addedItems.toString());
+            
         }
 
     });
 
 
     /* Removing items on clicking them */
-    $('#itemsContainer').on('click', '.items3', function () {
-        $(this).remove();
-        subTotal($(this).text()); // update total
-        $('#paidItemsInput').val($('.items3').text());
+    $('#itemsContainer').on('click', '.items2', function () {
+        orders("remove", $(this).val());
+        subTotal($(this).val()); // update total
+        $('#paidItemsInput').val(addedItems.toString());
     });
 
-    ///**
-    // * process pay button on click event.
-    // * @param {any} item
-    // */
-    //$("#processPay").click(function () {
-    //    let items = $('.items3').text();
-    //    $('#paidItemsInput').val(items);
-    //    alert("items3 = " + items);
-    //});
+    /* Adding items */
+    const addedItems = [];
+
+    /**
+    * function that will deal with the added or removed items 
+    * 
+    * flag : string 'remove', 'add'
+    * item: string item that need to be added or removed
+    * */
+    function orders(flag, item) {
+        if (flag === "remove") {
+            const index = addedItems.indexOf(item);
+            if (index > -1) {
+                addedItems.splice(index, 1);
+            }
+            $("#itemsContainer").html("");
+            $("#itemsContainer").append('<h2 class="bg-info text-center text-light p-2">Table - ' + tableNumber + '</h2>');
+            let u = new Set(addedItems);
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',','') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        } else if (flag === "add") {
+            $("#itemsContainer").html("");
+            $("#itemsContainer").append('<h2 class="bg-info text-center text-light p-2">Table - ' + tableNumber + '</h2>');
+            console.log("item to be added = " + item)
+            addedItems.push(item.trim()); // add item 
+            let u = new Set(addedItems);
+            console.log("u size = " + u.size)
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    console.log("val = " + val)
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',', '') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        }
+    }
 
     /* CALCULATING THE TOTAL */
 
@@ -234,9 +287,17 @@ $(document).ready(function () {
                     if (total <= 0) {
                         $("#totalSep").text("0.00");
                         $("#finalSepTotal").val(Number($("#totalSep").text()));
+                        // separate pay contents
+                        $('#hst').text("0.00");
+                        $('#totalAmount').text("0.00");
                     } else {
                         $("#totalSep").text(total);
                         $("#finalSepTotal").val(Number($("#totalSep").text()));
+                        // separate pay contents
+                        let hst = Number($("#totalSep").text()) * 0.13;
+                        $('#hst').text((hst.toFixed(2)));
+                        let t = (Number($("#totalSep").text()) + hst).toFixed(2);
+                        $('#totalAmount').text(t);
                     }
                 }
 
@@ -244,10 +305,20 @@ $(document).ready(function () {
                 total = (currentTotal + amount).toFixed(2);
                 $("#totalSep").text(total);
                 $("#finalSepTotal").val(Number($("#totalSep").text()));
+                // separate pay contents
+                let hst = Number($("#totalSep").text()) * 0.13;
+                $('#hst').text((hst.toFixed(2)));
+                let t = (Number($("#totalSep").text()) + hst).toFixed(2);
+                $('#totalAmount').text(t);
             } else if (key === 2) {
                 amount = parseFloat(amount).toFixed(2);
                 $("#totalSep").text(amount)
-                $("#finalSepTotal").val(Number($("#totalSep").text()));;
+                $("#finalSepTotal").val(Number($("#totalSep").text()));
+                // separate pay contents
+                let hst = Number($("#totalSep").text()) * 0.13;
+                $('#hst').text((hst.toFixed(2)));
+                let t = (Number($("#totalSep").text()) + hst).toFixed(2);
+                $('#totalAmount').text(t);
             }
 
         }

@@ -21,7 +21,7 @@ $(document).ready(function () {
         if (!table) {
             alert("You will need to select a table first!");
         } else {
-            let items = $('.items').text();
+            let items = addedItems.toString();
             if (items !== "") {
                 let tableId = $("#tableSelecter").val();
                 let notes = $("#notes").val();
@@ -77,13 +77,14 @@ $(document).ready(function () {
 
     });
     /* Adding items */
+    const addedItems = [];
+
     $(".buttons").click(function () {
         let table = isInteger($("#tableSelecter").val());
-
         if (!table) {
             alert("You will need to select a table first!");
         } else {
-            $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + $(this).val() + '">' + $(this).text() + '<span class="d-none">,</span></button></div>');
+            orders("add", $(this).val()); // add item to order
             addTotal($(this).val()); // update total
         }
 
@@ -97,10 +98,59 @@ $(document).ready(function () {
         return /^\d+$/.test(value);
     }
 
+    /**
+     * function that will deal with the added or removed items 
+     * 
+     * flag : string 'remove', 'add'
+     * item: string item that need to be added or removed
+     * */ 
+    function orders(flag, item) {
+        if (flag === "remove") {
+            const index = addedItems.indexOf(item);
+            if (index > -1) {
+                addedItems.splice(index, 1);
+            }
+            $("#custom-left").html("");
+            let u = new Set(addedItems);
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',', '') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        } else if (flag === "add") {
+            $("#custom-left").html("");
+            console.log("item to be added = " + item)
+            addedItems.push(item.trim()); // add item 
+            let u = new Set(addedItems);
+            console.log("u size = " + u.size)
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',','') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        }
+    }
     /* Removing items on clicking them */
-    $('#custom-left').on('click', '.items', function () {
-        $(this).remove();
-        subTotal($(this).text());  // update total
+    $('#custom-left').on('click', '.item', function () {
+        console.log("removed item value = " + $(this).val());
+        orders("remove", $(this).val()); // remove item from order
+        console.log("added items after removing: " + addedItems);
+        //$(this).remove();
+        subTotal($(this).val());  // update total
     });
 
     /* CALCULATING THE TOTAL */
@@ -202,21 +252,17 @@ $(document).ready(function () {
      * @param {any} data
      */
     function loadItems(data) {
-        $("#custom-left").html("");
-        let item = "";
-
         if (data !== null) {
             let items = data.split(',');
             let i = 0;
             while (i < items.length) {
                 if (items[i].trim() !== "") {
                     let val = items[i] + ",";
-                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + items[i] + '<span class="d-none">,</span></button></div>');
+                    orders("add", val);
                 }
                 i++;
             }
         }
-
     }
 
 /* calculating the total amount */
@@ -263,7 +309,8 @@ $(document).ready(function () {
         if (!table) {
             alert("You will need to select a table first!");
         } else {
-            let items = $('.items').text();
+            //let items = $('.items').text();
+            let items = addedItems.toString();
             let tableId = $("#tableSelecter").val();
             let total = $("#total").text();
             total = Number(total);
