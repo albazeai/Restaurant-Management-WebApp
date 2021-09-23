@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
 
+    let tableNumber = 0;
+
     $("#tableSelecterIndex").change(function () {
         let tableId = isInteger($("#tableSelecterIndex").val());
         if (tableId) {
@@ -14,7 +16,6 @@ $(document).ready(function () {
                     loadItems(data);
                 },
                 error: function (req, status, error) {
-                    //console.log(msg);
                 }
             });
         } else {
@@ -40,6 +41,7 @@ $(document).ready(function () {
      */
     function loadItems(data1) {
         if (data1 !== null) {
+            tableNumber = data1.tableId;
             $("#table-info").html("");
             $("#itemsContainer").html("");
             setTotal(2, 0.00); // reset total
@@ -87,8 +89,7 @@ $(document).ready(function () {
                                         '<h3 class="">HST(13%): $ ' + (data1.total * 0.13).toFixed(2) + '</h3><hr/>' +
                                         '<h2 class="">Subtotal: $ ' + (data1.total + (data1.total * 0.13)).toFixed(2) + '</h2>' +
                                         '</div>');
-            //let d = $('<div class="bg-info">< button class= "btn btn-danger m-2 removeTable" value = "' + data1.tableId + '" > Clear Table</button > <br><hr />< button class="btn btn-primary m-2 paySeparate" value="' + data1.tableId + '" > Pay Individually</button ></div>');
-            //d.appendTo($("#table-info"));
+
             $("#table-info").append('<div>' + 
                 '<button class= "btn btn-danger m-2 removeTable" value = "' + data1.tableId + '" > Clear Table</button > <br><hr /> ' +
                 '<button class="btn btn-primary m-2 paySeparate" value="' + data1.tableId + '" > Pay Individually</button >' +
@@ -135,11 +136,9 @@ $(document).ready(function () {
     $("#table-info").on("click", ".buttons2", function () {
         let flag = $("#flagBtn").val();
         if (flag === '1') {
-            let t = $(this).val();
-            let text = t.replace(",", "");
-            $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 item2" value="' + $(this).val() + '">' + text + '</button><span class="d-none">,</span></div>');
+            orders("add", $(this).val());
             addTotal($(this).val()); // update total paidItemsInput
-            $('#paidItemsInput').val($('.items3').text());
+            $('#paidItemsInput').val(addedItems.toString());
             
         }
 
@@ -147,21 +146,64 @@ $(document).ready(function () {
 
 
     /* Removing items on clicking them */
-    $('#itemsContainer').on('click', '.items3', function () {
-        $(this).remove();
-        subTotal($(this).text()); // update total
-        $('#paidItemsInput').val($('.items3').text());
+    $('#itemsContainer').on('click', '.items2', function () {
+        orders("remove", $(this).val());
+        subTotal($(this).val()); // update total
+        $('#paidItemsInput').val(addedItems.toString());
     });
 
-    ///**
-    // * process pay button on click event.
-    // * @param {any} item
-    // */
-    //$("#processPay").click(function () {
-    //    let items = $('.items3').text();
-    //    $('#paidItemsInput').val(items);
-    //    alert("items3 = " + items);
-    //});
+    /* Adding items */
+    const addedItems = [];
+
+    /**
+    * function that will deal with the added or removed items 
+    * 
+    * flag : string 'remove', 'add'
+    * item: string item that need to be added or removed
+    * */
+    function orders(flag, item) {
+        if (flag === "remove") {
+            const index = addedItems.indexOf(item);
+            if (index > -1) {
+                addedItems.splice(index, 1);
+            }
+            $("#itemsContainer").html("");
+            $("#itemsContainer").append('<h2 class="bg-info text-center text-light p-2">Table - ' + tableNumber + '</h2>');
+            let u = new Set(addedItems);
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',','') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        } else if (flag === "add") {
+            $("#itemsContainer").html("");
+            $("#itemsContainer").append('<h2 class="bg-info text-center text-light p-2">Table - ' + tableNumber + '</h2>');
+            console.log("item to be added = " + item)
+            addedItems.push(item.trim()); // add item 
+            let u = new Set(addedItems);
+            console.log("u size = " + u.size)
+            for (const value of u.values()) {
+                let val = value;
+                let count = 0;
+                for (let i = 0; i < addedItems.length; i++) {
+                    if (addedItems[i] === val) {
+                        count++;
+                    }
+                }
+                if (val !== "") {
+                    console.log("val = " + val)
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',', '') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                }
+            }
+        }
+    }
 
     /* CALCULATING THE TOTAL */
 

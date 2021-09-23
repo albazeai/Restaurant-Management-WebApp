@@ -76,7 +76,7 @@ $(document).ready(function () {
         }
 
     });
-/* Adding items */
+    /* Adding items */
     const addedItems = [];
 
     $(".buttons").click(function () {
