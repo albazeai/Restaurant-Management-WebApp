@@ -52,8 +52,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="float-left">
-                    <img src="#" alt="" id="fimage" />
+                <div class="text-center">
+                    <img src="#" alt="" class="img-thumbnail" id="fimage" />
                 </div>
                 <div class="float-right">
                     <h2 class="text-center text-light bg-info p-2">Recipe</h2>
@@ -83,7 +83,7 @@
                     $("#modalTitle").html(data.foodName);
                     $("#itemDetails").html(rec);
                     $('#fimage').attr('src', `data:image/png;base64,${data.foodImage}`);
-                    $('#fimage').css({ "height": "200px", "width": "200px" });
+                    $('#fimage').css({ "height": "auto", "width": "auto" });
 
                 },
                 error: function (req, status, error) {

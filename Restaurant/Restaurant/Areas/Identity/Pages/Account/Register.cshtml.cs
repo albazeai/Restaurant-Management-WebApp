@@ -65,6 +65,10 @@ namespace Restaurant.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            [Required]
             [Display(Name = "First name")]
             public string FirstName { get; set; }
 
@@ -117,7 +121,7 @@ namespace Restaurant.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
-                    UserName = Input.Email, 
+                    UserName = Input.UserName, 
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
@@ -137,6 +141,11 @@ namespace Restaurant.Areas.Identity.Pages.Account
                 
                 if (result.Succeeded)
                 {
+                    /* Notes: I keeped this code on purpose, it may used later on 
+                     * if we need to add a real Email provider for eamil confirmation, 
+                     * as my app is internal system app, users will use the UserName and Password to log in.
+                     */
+
                     //_logger.LogInformation("User created a new account with password.");
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

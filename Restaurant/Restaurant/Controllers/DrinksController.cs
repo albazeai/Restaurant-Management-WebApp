@@ -131,7 +131,6 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
             var drink = await _context.Drinks
                 .Include(d => d.Category)
                 .FirstOrDefaultAsync(m => m.DrinkId == id);

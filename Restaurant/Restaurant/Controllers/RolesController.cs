@@ -73,9 +73,18 @@ namespace Restaurant.Controllers
             if (roleName != null && userName != null)
             {
                 var role = roleManager.Roles.FirstOrDefault(x => x.Name == roleName);
-                var user = await userManager.FindByNameAsync(userName);
+                var user = await userManager.FindByNameAsync(userName);               
                 if (role != null && user != null)
                 {
+                    // remove user from other roles if possible
+                    var userInRoles = await userManager.GetRolesAsync(user);
+                    if (userInRoles != null)
+                    {
+                        foreach (var rol in userInRoles)
+                        {
+                            await userManager.RemoveFromRoleAsync(user, rol);
+                        }
+                    }
                     await userManager.AddToRoleAsync(user, roleName);
                     return RedirectToAction("Index", "Roles");
 

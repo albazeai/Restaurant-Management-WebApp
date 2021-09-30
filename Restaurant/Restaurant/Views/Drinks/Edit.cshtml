@@ -15,6 +15,7 @@
             <input type="hidden" asp-for="DrinkId" />
             <div class="form-group">
                 <label asp-for="DrinkName" class="control-label"></label>
+                <p>If Drink Name Contain more then a Word Use '-' (ex: Chicken-Poutine)</p>
                 <input asp-for="DrinkName" class="form-control" />
                 <span asp-validation-for="DrinkName" class="text-danger"></span>
             </div>
