@@ -67,7 +67,7 @@ $(document).ready(function () {
                             count++;
                         }
                     }
-                    let y = g + '<span class="bg-dark m-2 p-2"> [ ' + count + " ]</span>";
+                    let y = g + '<span class="badge badge-dark m-1 p-2">' + count + '</span>';
                     if (!modItems.includes(y.trim()) && g.trim() !== "") {
                         modItems.push(y.trim()); 
                         parallelItems.push(g + ','); 
@@ -179,7 +179,7 @@ $(document).ready(function () {
                     }
                 }
                 if (val !== "") {
-                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',','') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',', '') + '<span class="badge badge-dark m-1 p-2">' + count + '</span></button></div>');
                 }
             }
         } else if (flag === "add") {
@@ -199,7 +199,7 @@ $(document).ready(function () {
                 }
                 if (val !== "") {
                     console.log("val = " + val)
-                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',', '') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                    $("#itemsContainer").append('<div class="items3"> <button class="btn btn-success m-2 items2" value="' + val + '">' + val.replace(',', '') + '<span class="badge badge-dark m-1 p-2">' + count + '</span></button></div>');
                 }
             }
         }

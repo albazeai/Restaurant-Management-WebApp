@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     /* Kitchen Form Submit */
     $("#kitchenForm").submit(function () {
-        event.preventDefault();
+        //event.preventDefault();
        // window.location.href = "/Cashier";
 
         /* do ajax request to save & send a record to the order status database */
@@ -23,8 +23,13 @@ $(document).ready(function () {
         } else {
             let items = addedItems.toString();
             if (items !== "") {
+                console.log("tabel items = " + addedItems.toString())
                 let tableId = $("#tableSelecter").val();
                 let notes = $("#notes").val();
+                if (notes.trim() === "")
+                {
+                    notes = "...";
+                }
                 let message = { TableId: tableId, Items: items, Notes: notes, Status: "Not Set" };
 
                 /* Adding a new message */
@@ -34,32 +39,38 @@ $(document).ready(function () {
                     data: message,
                     success: function (msg) {
 
-                        /* Saving the order */
-                        let total = $("#total").text();
-                        total = Number(total);
-                        let order = { TableId: tableId, TableItems: items, Total: total };
+                        if (msg) {
+                            /* Saving the order */
+                            let total = $("#total").text();
+                            total = Number(total);
+                            let order = { TableId: tableId, TableItems: items, Total: total };
 
-                        $.ajax({
-                            type: "POST",
-                            url: '/Cashier/AddOrder',
-                            data: order,
-                            success: function (msg) {
-                                window.location.href = "/Cashier";
-                            },
-                            error: function (req, status, error) {
-                                console.log(msg);
-                            }
-                        });
+                            $.ajax({
+                                type: "POST",
+                                url: '/Cashier/AddOrder',
+                                data: order,
+                                success: function (msg) {
+                                    window.location.href = "/Cashier";
+                                },
+                                error: function (req, status, error) {
+                                    console.log(msg);
+                                }
+                            });
+                        } else {
+                            alert("No Kitchen Items in The Order! Please use the 'Save' option.")
+                        }
+                       
                     },
                     error: function (req, status, error) {
                         console.log(msg);
                     }
                 });
             } else {
-                alert("No items!");
+                alert("Please Add Some items!");
             }
 
         }
+        return false;
     });
     /* Menu Selecter */
     $("#menuOptions").change(function () {
@@ -77,7 +88,7 @@ $(document).ready(function () {
 
     });
     /* Adding items */
-    const addedItems = [];
+    let addedItems = [];
 
     $(".buttons").click(function () {
         let table = isInteger($("#tableSelecter").val());
@@ -121,15 +132,13 @@ $(document).ready(function () {
                     }
                 }
                 if (val !== "") {
-                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',', '') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',', '') + '<span class="badge badge-dark m-1 p-2">' + count + '</span></button></div>');
                 }
             }
         } else if (flag === "add") {
             $("#custom-left").html("");
-            console.log("item to be added = " + item)
             addedItems.push(item.trim()); // add item 
             let u = new Set(addedItems);
-            console.log("u size = " + u.size)
             for (const value of u.values()) {
                 let val = value;
                 let count = 0;
@@ -139,7 +148,7 @@ $(document).ready(function () {
                     }
                 }
                 if (val !== "") {
-                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',','') + '<span class="bg-dark m-2 p-2"> [ ' + count + ' ]</span></button></div>');
+                    $("#custom-left").append('<div class="items"> <button class="btn btn-success m-2 item" value="' + val + '">' + val.replace(',', '') + '<span class="badge badge-dark m-1 p-2">' + count + '</span></button></div>');
                 }
             }
         }
@@ -253,6 +262,7 @@ $(document).ready(function () {
      */
     function loadItems(data) {
         if (data !== null) {
+            addedItems = [];  // clearing old items
             let items = data.split(',');
             let i = 0;
             while (i < items.length) {

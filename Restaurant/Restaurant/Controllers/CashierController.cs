@@ -115,6 +115,42 @@ namespace Restaurant.Controllers
 
             if (ModelState.IsValid)
             {
+                //string []items = message.Items.Split(',');
+                //string foodItems = "";
+                //string name = "";
+                ////Soft - Drink $2,,Soft - Drink $2,,Shawarma - Poutine $6.95,,Shawarma - Poutine $6.95,
+                //foreach (var item in items)
+                //{
+                //    foreach (var c in item.Trim())
+                //    {
+                //        bool isLetter = Char.IsLetter(c);
+                //        if (c != '$')
+                //        {
+                //            name += c;
+                //        }
+                //        //else if (c == '-')
+                //        //{
+                //        //    name += c;
+                //        //}
+                //        else
+                //        {
+                //            var getItem = _context.Foods.FirstOrDefault(x => x.FoodName == name.Trim());
+                //            if (getItem != null)
+                //            {
+                //                foodItems += name + ",";
+                //            }
+                //        }
+                //    }
+                //}
+                //if (foodItems.Trim() == "")
+                //{
+                //    return false;
+                //}
+                //message.Items = foodItems;
+                //_context.Add(message);
+                //await _context.SaveChangesAsync();
+                //return true;
+
                 string items = message.Items;
                 string name = "";
                 string foodItems = "";
@@ -139,6 +175,10 @@ namespace Restaurant.Controllers
                         name = "";
                     }
 
+                }
+                if (foodItems == "")
+                {
+                    return false;
                 }
                 message.Items = foodItems;
                 _context.Add(message);

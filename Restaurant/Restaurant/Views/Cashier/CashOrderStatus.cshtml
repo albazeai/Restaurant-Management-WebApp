@@ -9,7 +9,7 @@
 <div id="main"></div>
 
 @section Scripts {
-    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
     $(document).ready(function () {
 
@@ -42,27 +42,28 @@
                     for (var j = 0; j < item.length; j++) {
                         let count = 0;
                         let g = item[j];
-                        for (var c = 0; c < item.length; c++) {
-                            if (item[c].trim() === g.trim()) {
-                                count++;
+                        if (g.trim() !== "") {
+                            for (var c = 0; c < item.length; c++) {
+                                if (item[c].trim() === g.trim()) {
+                                    count++;
+                                }
                             }
-                        }
-                        let y = g + " [ " + count + " ]";
-                        if (!modItems.includes(y.trim())) {
-                            modItems += y.trim();
-                            modItems += "<br>";
+                            let y = g + '<span class="badge badge-warning m-1 p-2">' + count + '</span><hr/>';
+                            if (!modItems.includes(y.trim())) {
+                                modItems += y.trim();
+                            }
                         }
 
                     }
 
                     if (messages[i].status.toLowerCase() === "not set") {
-                        $("#main").append('<div class="alert alert-info"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '</h1><hr/><h2 class="alert alert-danger p-2">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-danger cancel" value="' + messages[i].messageId + '">Cancel</button></div>');
+                        $("#main").append('<div class="alert alert-info"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '<span class="badge badge-warning p-2 float-right">Not-Set</span></h1><hr/><h2 class="alert alert-danger text-dark p-2">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-danger cancel" value="' + messages[i].messageId + '">Cancel</button></div>');
                     }
                     else if(messages[i].status.toLowerCase() === "in progress") {
-                        $("#main").append('<div class="alert alert-warning"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2 class="">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button type="button" class="btn btn-secondary" disabled>in progress</button></div>');
+                        $("#main").append('<div class="alert alert-warning"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '<span class="badge badge-danger p-2 float-right">In-Progress</span></h1><hr/><h2 class="text-dark">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button type="button" class="btn btn-secondary" disabled>in progress</button></div>');
                     }
                     else if (messages[i].status.toLowerCase() === "complete"){
-                        $("#main").append('<div class="alert alert-success"><h1>Table - ' + messages[i].tableId + '</h1><hr/><h2 class="">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-success status-update" value="' + messages[i].messageId + '">Picked Up</button></div>');
+                        $("#main").append('<div class="alert alert-success"><h1 class="bg-info text-center text-light p-2">Table - ' + messages[i].tableId + '<span class="badge badge-success p-2 float-right">Ready</span></h1><hr/><h2 class="text-dark">' + modItems + '</h2><hr/><h3><span class="text-success"><em>Notes:</em></span>  ' + messages[i].notes + '</h3><hr/><button class="btn btn-success status-update" value="' + messages[i].messageId + '">Picked Up</button></div>');
                     }
                 }
 
@@ -85,23 +86,6 @@
             });
 
         });
-
-        //function loadItems(data) {
-        //    let item = "";
-        //    let i = 0;
-        //    while (i < data.length) {
-        //        if (data[i] !== ',') {
-        //            item += data[i];
-        //            i++;
-        //        } else {
-        //            //$("#main").append('<div class=""><button class="btn btn-success m-2">' + item + '</button></div>');
-        //            $("#main").append('<div class=""><button class="btn btn-success m-2">' + item + '</button></div>');
-        //            //$("#main").append('<button class="btn btn-success m-2">' + item + '</button>');
-        //            item = "";
-        //            i++;
-        //        }
-        //    }
-        //}
 
         /* Removing message using cancel button */
         $('#main').on('click', '.cancel', function () {
