@@ -34,7 +34,7 @@
                 <td class="w-50">
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
+                <td class="startDate">
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
                 <td>
@@ -53,3 +53,40 @@
 <div class="">
     <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+            //let dates = $(".startDate").text();
+            let dates = [];
+            let today = new Date();
+            $('.startDate').each(function (i, obj) {
+                //test
+                dates.push($(this).text())
+                console.log("dateds length = " + dates.length)
+                console.log("date[0] = " + dates[0]);
+                let date = new Date(dates[0]);
+                console.log("date = " + date.getDate())
+
+                let formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                console.log("formatted = " + formatted)
+
+                let todayFormatted = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+                console.log("todayFormatted = " + todayFormatted)
+
+                let d1 = new Date(formatted);
+                let d2 = new Date(todayFormatted);
+                console.log("today less then = " + (d2.valueOf() > d1.valueOf()))
+
+                if (d2.toString() >= d1.toString()) {
+                    $(this).css("background-color", "red")
+                }
+
+            });
+
+            //alert(dates)
+        });
+    </script>
+}

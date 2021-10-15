@@ -33,48 +33,54 @@
 </style>
 <h1 class="bg-success text-center text-light p-3">Add Order</h1>
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
+@*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <div class="form-group">
-                        <select class="custom-select custom-select-lg" id="tableSelecter">
-                            <option>Select-Table</option>
-                            @{
-                                try
+        </button>*@
+        @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse2">*@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <div class="form-group">
+                    <select class="custom-select custom-select-lg" id="tableSelecter">
+                        <option>Select-Table</option>
+                        @{
+                            try
+                            {
+                                foreach (Table item in Model.Tables)
                                 {
-                                    foreach (Table item in Model.Tables)
-                                    {
-                                        <option value="@item.TableId">Table - @item.TableId</option>
-                                    }
+                                    <option value="@item.TableId">Table - @item.TableId</option>
                                 }
-                                catch (NullReferenceException)
-                                {
-
-                                }
+                            }
+                            catch (NullReferenceException)
+                            {
 
                             }
 
-                        </select>
-                    </div>
-                </li>
+                        }
 
-                <li class="nav-item ml-2">
-                    <div class="form-group">
-                        <select class="custom-select custom-select-lg" id="menuOptions">
-                            <option>Menu</option>
-                            <option value="drinks">Drinks</option>
-                            <option value="foods">Foods</option>
+                    </select>
+                </div>
+            </li>
+
+            <li class="nav-item ml-2">
+                <div class="form-group">
+                    <select class="custom-select custom-select-lg" id="menuOptions">
+                        <option>Menu</option>
+                        <option value="drinks">Drinks</option>
+                        <option value="foods">Foods</option>
 
 
-                        </select>
-                    </div>
-                    @*<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                    </select>
+                </div>
+                @*<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                         <li class="nav-item">
                             <a class="dropdown-item" asp-area="" asp-controller="Drinks" asp-action="Index">Drinks</a>
                         </li>
@@ -85,16 +91,16 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>*@
-                </li>
+            </li>
 
-            </ul>
-        </div>
-        <div class="float-right mr-2">
-            @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
-            <button class="btn btn-success border border-white" id="saveBtn">Save</button>
-        </div>
-        @*send copy to kitchen form*@
-        @*<div class="float-right mr-2">
+        </ul>
+    </div>
+    <div class="float-right mr-2">
+        @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
+        <button class="btn btn-success border border-white" id="saveBtn">Save</button>
+    </div>
+    @*send copy to kitchen form*@
+    @*<div class="float-right mr-2">
             <button class="btn btn-success border border-white" id="toKitchenBtn">Save & Kitchen</button>
         </div>
         <div class="bg-light m-2" id="notesForm">
@@ -109,47 +115,47 @@
             </form>
         </div>*@
 
-        @*statrt test for modal box*@
+    @*statrt test for modal box*@
 
-        <!-- Button trigger modal -->
+    <!-- Button trigger modal -->
     <button type="button" class="btn btn-success border border-white mr-2" data-toggle="modal" data-target="#staticBackdrop">
         Save & Kitchen
     </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Kitchen Orders</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="p-3" id="kitchenForm">
-                            <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
-                            <div class="form-group">
-                                <label for="notes">Order Notes (optional):</label>
-                                <textarea class="form-control" id="notes" rows="3"></textarea>
-                            </div>
-                            <button class="btn btn-warning" type="reset">Clear</button>
-                            <button class="btn btn-success ml-1" type="submit">Submit</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Kitchen Orders</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="p-3" id="kitchenForm">
+                        <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
+                        <div class="form-group">
+                            <label for="notes">Order Notes (optional):</label>
+                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                        </div>
+                        <button class="btn btn-warning" type="reset">Clear</button>
+                        <button class="btn btn-success ml-1" type="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        @*end test*@
+    @*end test*@
 
 
-        <div class="float-right">
-            <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
-        </div>
+    <div class="float-right">
+        <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
+    </div>
     </div>
 </nav>
 

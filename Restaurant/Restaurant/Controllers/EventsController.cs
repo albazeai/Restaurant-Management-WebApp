@@ -60,15 +60,18 @@ namespace Restaurant.Controllers
         {
             if (ModelState.IsValid)
             {
-                DateTime inputDate = @event.StartDate;
-                DateTime current = DateTime.Now;
-                if (inputDate > current && inputDate < @event.EndDate)
-                {
-                    _context.Add(@event);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-       
+                //DateTime inputDate = @event.StartDate;
+                //DateTime current = DateTime.Now;
+                //if (inputDate > current && inputDate < @event.EndDate)
+                //{
+                //    _context.Add(@event);
+                //    await _context.SaveChangesAsync();
+                //    return RedirectToAction(nameof(Index));
+                //}
+                _context.Add(@event);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
             }
             ViewBag.ErrorMessage = "Start Date Must be Greater then the Current Date. \n Start Date Must be Lower then the End Date.";
             return View(@event);

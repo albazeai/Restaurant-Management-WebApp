@@ -9,7 +9,7 @@
 
 <form asp-action="FoodMenu" method="post" class="form-inline">
     <div class="form-group">
-        <strong>Search By Category: &emsp;</strong>
+        <strong>Filter By Category: &emsp;</strong>
         <select name="value1" asp-items="@ViewBag.Categories" class="form-control"></select>
     </div>
     <div class="form-group ml-2">
@@ -79,7 +79,7 @@
                 url: 'FoodDetails',
                 data: { id: id },
                 success: function (data) {
-                    let rec = "&#9830;" + data.recipes.split(',').join("<br>&#9830; ");
+                    let rec = "&#9989; " + data.recipes.split(',').join("<br><hr/>&#9989;");
                     $("#modalTitle").html(data.foodName);
                     $("#itemDetails").html(rec);
                     $('#fimage').attr('src', `data:image/png;base64,${data.foodImage}`);
