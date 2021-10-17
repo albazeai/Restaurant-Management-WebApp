@@ -72,7 +72,8 @@
 
             $("#tableSelecterIndex").change(function () {
                 $("#table_action_container").hide();
-                addedItems = []; // clear seprate pay items if there is any left.
+                $("#sep_pay_container").hide();
+                //addedItems = []; // clear seprate pay items if there is any left.
                 let tableId = isInteger($("#tableSelecterIndex").val());
                 if (tableId) {
                     let id = $("#tableSelecterIndex").val();
@@ -106,7 +107,6 @@
                     $("#sep_total_seb").text("0.00")
                     $("#sep_hst").text("0.00")
                     $("#sep_total").text("0.00")
-                    $(".table_items").prop('disabled', true);
 
                     // display the current table data
                     let items = data.tableItems.split(',');
@@ -139,7 +139,7 @@
                 return dict;
             }
             // display items on screen
-            function displayTableItems(dict) {
+            function displayTableItems(dict, flag = true) {
                 // clear pay container and hide it
            
                 // display items 
@@ -159,8 +159,11 @@
                 $("#table_sebtotal").text(total)
                 $("#table_hst").text(hst)
                 $("#table_total").text(table_total)
-
+                // show action buttons (pay ind, clear table)
                 $("#table_action_container").show();
+                if (flag) {
+                   $(".table_items").prop('disabled', true);  // set the properies of the add buttons 
+                }
             }
 
             // enable buttons when separat pay invoked
@@ -193,7 +196,7 @@
 
                     }
                 }
-                displayTableItems(main_dict) // update the main table data 
+                displayTableItems(main_dict,false) // update the main table data 
 
 
                 // now deal with the separate pay content
@@ -226,7 +229,7 @@
                         main_dict[key] += 1;
                     }
                 }
-                displayTableItems(main_dict) // update the main table data 
+                displayTableItems(main_dict,false) // update the main table data 
 
                 // now deal with the separate pay content
                 // find matched item
@@ -285,10 +288,40 @@
             //sep form submition
             $("#sep_form").submit(function () {
                 let items = sep_items.join(',');
-                $("#tableId").val(table_id);
-                $("#finalSepTotal").val($("#sep_total").text());
-                $("#paidItemsInput").val(items.toString());
-                return true;
+
+                /* sending request to proccess the separate pay and update the table items */ 
+                $.ajax({
+                    type: "Post",
+                    url: "/Cashier/SeparatePays",
+                    data: { id: table_id, paidItems: items.toString(), total: $("#sep_total").text()},
+                    success: function (data) {
+
+                        // reset separate pay containers
+                        sep_items = []
+                        $("#sep_content").html('');
+                        $("#sep_total_seb").text("0.00")
+                        $("#sep_hst").text("0.00")
+                        $("#sep_total").text("0.00")
+
+                        // check if anything left on the table 
+                        let flag = false;
+                        for (let key in main_dict) {
+                            if (main_dict[key] > 0) {
+                                flag = true;
+                            }
+                        }
+                        // if somthing left on the table then display it otherwise clear the table
+                        if (flag) {
+                            displayTableItems(main_dict,false)
+                        } else {
+                            window.location.href = "/Cashier";
+                        }
+
+                    },
+                    error: function (req, status, error) {  }
+                });
+
+                return false;
             });
 
             // clear table button event

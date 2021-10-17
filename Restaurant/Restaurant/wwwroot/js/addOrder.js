@@ -50,7 +50,7 @@ $(document).ready(function () {
                                 url: '/Cashier/AddOrder',
                                 data: order,
                                 success: function (msg) {
-                                    window.location.href = "/Cashier";
+                                    window.location.href = "/Cashier/AddOrder";
                                 },
                                 error: function (req, status, error) {
                                     console.log(msg);
@@ -338,7 +338,7 @@ $(document).ready(function () {
                 url: 'AddOrder',
                 data: order,
                 success: function (msg) {
-                    window.location.href = "/Cashier";
+                    window.location.href = "/Cashier/AddOrder";
                 },
                 error: function (req, status, error) {
                     console.log(msg);
