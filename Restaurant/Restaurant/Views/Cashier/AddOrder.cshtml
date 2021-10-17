@@ -26,7 +26,10 @@
 
 
 <style>
-    #custom-left{height: 500px;}
+    #custom-left {
+        height: 500px;
+    }
+
     #custom-right {
         height: 500px;
     }
@@ -39,9 +42,9 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>*@
-        @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse2">*@
+@*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse2">*@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    @*<a class="navbar-brand" href="#">Navbar</a>*@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -156,7 +159,7 @@
     <div class="float-right">
         <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
     </div>
-    </div>
+    @*</div>*@
 </nav>
 
 <div class="container">
@@ -200,7 +203,7 @@
                                 }
                             }
                         </div>
-                       
+
                     </div>
 
                     <div class="border border-success">
@@ -228,14 +231,42 @@
                     <div class="border border-success">
                         <h2 class="bg-info text-light text-center p-3">Alcoholic</h2>
                         @*<div class="p-3">
+                                @{
+                                    try
+                                    {
+                                        foreach (Drink item in Model.Drinks)
+                                        {
+                                            if (item.Category.CategoryName.Trim().Contains("Pizza"))
+                                            {
+                                                <button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>
+
+                                            }
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                    }
+                                }
+                            </div>*@
+                    </div>
+
+                </div>
+
+                @*food section*@
+                <div id="foodsSection" class="">
+                    <h1 class="bg-warning p-2">Food Menu</h1>
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Pizza</h2>
+                        <div class="p-3">
                             @{
                                 try
                                 {
-                                    foreach (Drink item in Model.Drinks)
+                                    foreach (Food item in Model.Foods)
                                     {
                                         if (item.Category.CategoryName.Trim().Contains("Pizza"))
                                         {
-                                            <button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
                                         }
                                     }
@@ -245,169 +276,141 @@
 
                                 }
                             }
-                        </div>*@
+                        </div>
                     </div>
-
-                </div>
-
-                @*food section*@
-            <div id="foodsSection" class="">
-                <h1 class="bg-warning p-2">Food Menu</h1>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Pizza</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Burger</h2>
+                        <div class="p-3">
+                            @{
+                                try
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Pizza"))
+                                    foreach (Food item in Model.Foods)
                                     {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+                                        if (item.Category.CategoryName.Trim().Contains("Burger"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Burger</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                                catch (Exception)
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Burger"))
-                                    {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
-                                    }
                                 }
                             }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
+                        </div>
                     </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Chicken</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Chicken</h2>
+                        <div class="p-3">
+                            @{
+                                try
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Chicken"))
+                                    foreach (Food item in Model.Foods)
                                     {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+                                        if (item.Category.CategoryName.Trim().Contains("Chicken"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Beef</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                                catch (Exception)
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Beef"))
-                                    {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
-                                    }
                                 }
                             }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
+                        </div>
                     </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Fries</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Beef</h2>
+                        <div class="p-3">
+                            @{
+                                try
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Fries"))
+                                    foreach (Food item in Model.Foods)
                                     {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+                                        if (item.Category.CategoryName.Trim().Contains("Beef"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Soup</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                                catch (Exception)
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Soup"))
-                                    {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
-                                    }
                                 }
                             }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
+                        </div>
                     </div>
-                </div>
-                <div class="border border-success">
-                    <h2 class="bg-info text-light text-center p-3">Sea-Food</h2>
-                    <div class="p-3">
-                        @{
-                            try
-                            {
-                                foreach (Food item in Model.Foods)
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Fries</h2>
+                        <div class="p-3">
+                            @{
+                                try
                                 {
-                                    if (item.Category.CategoryName.Trim().Contains("Seafood"))
+                                    foreach (Food item in Model.Foods)
                                     {
-                                        <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+                                        if (item.Category.CategoryName.Trim().Contains("Fries"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
 
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception)
-                            {
+                                catch (Exception)
+                                {
 
+                                }
                             }
-                        }
+                        </div>
+                    </div>
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Soup</h2>
+                        <div class="p-3">
+                            @{
+                                try
+                                {
+                                    foreach (Food item in Model.Foods)
+                                    {
+                                        if (item.Category.CategoryName.Trim().Contains("Soup"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Sea-Food</h2>
+                        <div class="p-3">
+                            @{
+                                try
+                                {
+                                    foreach (Food item in Model.Foods)
+                                    {
+                                        if (item.Category.CategoryName.Trim().Contains("Seafood"))
+                                        {
+                                            <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
+
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        </div>
                     </div>
                 </div>
-              </div> 
 
 
             </div>
@@ -417,6 +420,9 @@
 
 
 
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="~/js/addOrder.js"></script>
+}
 
 

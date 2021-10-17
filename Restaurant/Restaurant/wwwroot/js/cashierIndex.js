@@ -3,8 +3,11 @@
 $(document).ready(function () {
 
     let tableNumber = 0;
-
+    let mainTableData = {};
+    let mainTotal = 0;
+   // $("#mainTotal").hide(); // hide the total container
     $("#tableSelecterIndex").change(function () {
+        addedItems = []; // clear seprate pay items if there is any left.
         let tableId = isInteger($("#tableSelecterIndex").val());
         if (tableId) {
             let id = $("#tableSelecterIndex").val();
@@ -42,6 +45,7 @@ $(document).ready(function () {
     function loadItems(data1) {
         if (data1 !== null) {
             tableNumber = data1.tableId;
+            mainTableData = data1;         // getting a copy of the main data
             $("#table-info").html("");
             $("#itemsContainer").html("");
             setTotal(2, 0.00); // reset total
@@ -84,6 +88,9 @@ $(document).ready(function () {
 
             }
             // appending the Total html elements:
+            mainTotal = data1.total.toFixed(2)   // getting a copy of the orginal total
+            console.log("main total = " + mainTotal)
+            $("#mainTotal").text(data1.total.toFixed(2));
             $("#table-info").append('<div class="alert alert-success">' +
                                         '<h3>Total: $ ' + (data1.total.toFixed(2)) + '</h3>' +
                                         '<h3 class="">HST(13%): $ ' + (data1.total * 0.13).toFixed(2) + '</h3><hr/>' +
@@ -101,7 +108,7 @@ $(document).ready(function () {
 
     $("#table-info").on("click", ".removeTable", function () {
 
-        if (confirm("Confirm Delete?")) {
+        if (confirm("Ary you sure you want to clear this Table?")) {
             let tableId = isInteger($(this).val());
             if (tableId) {
                 let id = $(this).val();
@@ -136,12 +143,33 @@ $(document).ready(function () {
     $("#table-info").on("click", ".buttons2", function () {
         let flag = $("#flagBtn").val();
         if (flag === '1') {
+            //reload($(this).val());  // calling reload to make changes to the UI
+
+
             orders("add", $(this).val());
             addTotal($(this).val()); // update total paidItemsInput
             $('#paidItemsInput').val(addedItems.toString());
-            
-        }
 
+            // working on the main table info
+            let t = $(this).text()
+            let qunt = t[t.length - 1] // get the item quntity
+            if (qunt === '1') {
+                //$(this).hide()   // now update the total
+            }
+            console.log("item value t = " + t[t.length - 1])
+
+            // update total on the main
+            let total = $("#mainTotal").text();
+            let item_price = item_price
+            total = total - addTotal($(this).val())
+            $("#mainTotal").text(total);
+
+            setTotal(1, total); // update total in separated pay container
+            let sept = $("#totalSep").text()
+            sept += item_price
+            $("#totalSep").text(sept)
+
+        }
     });
 
 
@@ -152,8 +180,42 @@ $(document).ready(function () {
         $('#paidItemsInput').val(addedItems.toString());
     });
 
+    // reload function will make changes to the UI
+    function reload(item) {
+        let items = mainTableData.tableItems.split(',');
+        console.log("items = " + items.length)
+        let s = new Set(items)
+
+        let dic = {}
+        s.forEach(function (value) {
+            dic[value] = 0;
+        })
+        s.forEach(function (value) {
+            for (val of items) {
+                if (val === value) {
+                    dic[value] += 1;
+                }
+               
+            }
+        })
+
+        //$("#table-info").append('<div class="items"> <button class="btn btn-success m-2 buttons2" value = "' + val + '">' + modItems[i] + '</button></div>');
+        // sub the quntity of the selected item
+
+
+        console.log("dic = " + (dic.toString()))
+        console.log(dic)
+
+        //console.log("set size = " + s.size)
+        //s.forEach(function (value) {
+        //    console.log("set(value) = " + value)
+        //})
+        
+    }
+
+
     /* Adding items */
-    const addedItems = [];
+    let addedItems = [];
 
     /**
     * function that will deal with the added or removed items 
@@ -232,8 +294,10 @@ $(document).ready(function () {
                 }
             }
 
-            setTotal(1, total);    // updating the total
+            //setTotal(1, total);    // updating the total
+            return total; // return total
         }
+        return total;
 
     }
 

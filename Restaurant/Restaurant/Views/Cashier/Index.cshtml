@@ -1,45 +1,49 @@
-﻿@*@model ViewModel*@
-@*@model IEnumerable<Restaurant.Models.Table>*@
-
-
+﻿
 @{
     ViewData["Title"] = "Index";
 }
 
-@*<header>
-        <partial name="_CashierNav" />
-    </header>*@
-
 
 <h1>Cashier Home</h1>
 
-
-
-
-
 <div class="container">
-    <h2 class="text-danger">@*@ViewBag.ErrorMessage*@</h2>
+    <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     <div class="row">
         <div class="col-sm-5 col-md-5">
             <div class="border border-success">
                 <div class="" id="table-info"></div>
+                <div id="table_action_container" >
+                    <div class="alert alert-success">
+                        <hr />
+                        <h2> SebTotal: $ <span id="table_sebtotal"></span></h2>
+                        <h2> HST(13%): $ <span id="table_hst"></span></h2>
+                        <hr />
+                        <h2> Total: $ <span id="table_total"></span></h2>
+                        <hr />
+                    </div>
+                    <div class="">
+                        <button class= "btn btn-primary m-2" id="sep_btn">Pay Individually</button> <br /><hr />
+                        <button class= "btn btn-danger m-2" id="clear_btn">Clear Table</button>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <div class="col-sm-2 col-md-2">
         </div>
         <div class="col-sm-5 col-md-5">
-            <div class="border border-success payContainer">
+            <div class="border border-success" id="sep_pay_container">
                 <input type="hidden" value="0" id="flagBtn" />
-                <div class="" id="itemsContainer"></div>
+                <div class="" id="sep_content"></div>
                 <h2 class="bg-success text-center text-light p-2">TOTAL</h2>
                 <div class="alert alert-success">
-                    <h3 class="" id="">Total: $ <span id="totalSep">0.00</span></h3>
-                    <h3 class="" id="">HST(13%): $ <span id="hst">0.00</span></h3>
+                    <h3 class="" id="">Subtotal: $ <span id="sep_total_seb">0.00</span></h3>
+                    <h3 class="" id="">HST(13%): $ <span id="sep_hst">0.00</span></h3>
                     <hr />
-                    <h2 class="" id="">Subtotal: $ <span id="totalAmount">0.00</span></h2>
+                    <h2 class="" id="">Total: $ <span id="sep_total">0.00</span></h2>
                 </div>
                 <div>
-                    <form action="/Cashier/SeparatePays" method="post">
+                    <form action="/Cashier/SeparatePays" method="post" id="sep_form">
                         <input type="hidden" name="id" value="" id="tableId" />
                         <input type="hidden" name="total" value="" id="finalSepTotal" />
                         <input type="hidden" name="paidItems" value="" id="paidItemsInput" />
@@ -54,94 +58,269 @@
     </div>
 </div>
 
-
 @section Scripts {
-    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
-    @*<script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@*<script src="~/js/cashierIndex.js"></script>*@
 
-            $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
+            $("#table_action_container").hide();
+            $("#sep_pay_container").hide();
 
-                $("#tableSelecterIndex").change(function () {
-                    let tableId = isInteger($("#tableSelecterIndex").val());
-                    if (tableId) {
-                        let id = $("#tableSelecterIndex").val();
-                        $.ajax({
-                            type: "Post",
-                            url: "/Cashier/TableDetails",
-                            data: { id: id },
-                            success: function (data) {
-                                loadItems(data);
-                            },
-                            error: function (req, status, error) {
-                                console.log(msg);
-                            }
-                        });
-                    } else {
-                        $("#table-info").html("");
+            let table_id = 0;
+            let main_dict = {};
 
-                    }
-
-                });
-
-                /**
-                 *
-                 *  validation method that validate the any integer value. (mostly used for table Id)
-                 */
-                function isInteger(value) {
-                    return /^\d+$/.test(value);
-                }
-
-                function loadItems(data1) {
-                    if (data1 !== null) {
-                        $("#table-info").html("");
-                        $("#table-info").append('<h2 class="bg-info text-center text-light p-2">Table - ' + data1.tableId + '</h2>');
-                        let item = "";
-                        let data = data1.tableItems;
-                        if (data !== null) {
-                            let i = 0;
-                            while (i < data.length) {
-                                if (data[i] !== ',') {
-                                    item += data[i];
-                                    i++;
-                                } else {
-                                    $("#table-info").append('<div class="items"> <button class="btn btn-success m-2">' + item + '</button></div>');
-                                    item = "";
-                                    i++;
-                                }
-                            }
-
+            $("#tableSelecterIndex").change(function () {
+                $("#table_action_container").hide();
+                addedItems = []; // clear seprate pay items if there is any left.
+                let tableId = isInteger($("#tableSelecterIndex").val());
+                if (tableId) {
+                    let id = $("#tableSelecterIndex").val();
+                    $.ajax({
+                        type: "Post",
+                        url: "/Cashier/TableDetails",
+                        data: { id: id },
+                        success: function (data) {
+                            table_id = data.tableId  // getting a copy of the table id
+                            loadItems(data);
+                        },
+                        error: function (req, status, error) {
                         }
-                        $("#table-info").append('<h3 class="alert alert-success">Total: $ ' + (data1.total.toFixed(2)) + '</h3><button class="btn btn-danger m-2 removeTable" value="' + data1.tableId + '">Clear</button>');
-                    }
+                    });
+                } else {
+                    $("#sep_pay_container").hide();
+                    $("#sep_content").html("");
+                    $("#table-info").html("");
                 }
-
-                /* Clearing tables on clear button clicks */
-
-                $("#table-info").on("click", ".removeTable", function () {
-
-                    if (confirm("Confirm Delete?")) {
-                        let tableId = isInteger($(this).val());
-                        if (tableId) {
-                            let id = $(this).val();
-                            /* sending request to clear the table */
-                            $.ajax({
-                                type: "Post",
-                                url: "/Cashier/ClearTable",
-                                data: { id: id },
-                                success: function (data) {
-                                    window.location.href = "/Cashier";
-                                },
-                                error: function (req, status, error) {
-                                    console.log(msg);
-                                }
-                            });
-                        }
-                    } else {
-
-                    }
-
-                });
 
             });
-        </script>*@
+
+
+            // load items on table selected
+            function loadItems(data) {
+                if (data !== null) {
+                    // reset separate pay containers
+                    sep_items = []
+                    $("#sep_pay_container").hide();
+                    $("#sep_content").html('');
+                    $("#sep_total_seb").text("0.00")
+                    $("#sep_hst").text("0.00")
+                    $("#sep_total").text("0.00")
+                    $(".table_items").prop('disabled', true);
+
+                    // display the current table data
+                    let items = data.tableItems.split(',');
+                    main_dict = dict_store(items);     // store items in dictionary 
+                    displayTableItems(main_dict)     // disply items
+                }
+            }
+
+            function dict_store(items) {
+                let unique_items = new Set(items)
+                let dict = {}
+                // initalize quntity set to 0
+                unique_items.forEach(function (value) {
+                    if (value.trim() !== "") {
+                        dict[value] = 0;
+                    }
+                })
+                // set the actual quantity of each item
+                unique_items.forEach(function (value) {
+                    for (val of items) {
+                        if (value.trim() !== "") {
+                            if (val === value) {
+                                dict[value] += 1;
+                            }
+                        }
+
+                    }
+                })
+
+                return dict;
+            }
+            // display items on screen
+            function displayTableItems(dict) {
+                // clear pay container and hide it
+           
+                // display items 
+                $("#table-info").html('');
+                $("#table-info").append('<h2 class="bg-info text-center text-light p-2">Table - ' + table_id + '</h2>');
+                let total = 0;
+                for (let key in dict) {
+                    if (dict[key] !== 0) {
+                        let price = item_price(key);
+                        total += price * dict[key];
+                        $("#table-info").append('<button class="btn btn-success m-2 table_items" value = "' + key + '">' + key + '<span class= "badge badge-dark m-1 p-2" > ' + dict[key] + '</span ></button><br>');
+                    }
+                }
+                // load the total amount
+                let hst = (total * 0.13).toFixed(2)
+                let table_total = (total + Number(hst)).toFixed(2)
+                $("#table_sebtotal").text(total)
+                $("#table_hst").text(hst)
+                $("#table_total").text(table_total)
+
+                $("#table_action_container").show();
+            }
+
+            // enable buttons when separat pay invoked
+            $("#sep_btn").click(function () {
+                $("#sep_content").html('');
+                $("#sep_pay_container").show();
+                // reset the buttons properties
+                $(".table_items").prop('disabled', false);
+  
+            });
+                /* Adding items to separat pay container */
+            $("#table-info").on("click", ".table_items", function () {
+                separate_pay_add_content($(this).val())
+            });
+            /* Removing items from separat pay container */
+            $("#sep_content").on("click", ".sep_items", function () {
+                separate_pay_remove_content($(this).val())
+            });
+
+            // Adding items to the separate pay container
+            let sep_items = []
+            function separate_pay_add_content(item) {
+
+                // loop through the main data and remove item
+                for (let key in main_dict) {
+                    if (key === item) {
+                        if (main_dict[key] > 0) {
+                            main_dict[key] -= 1;
+                        }
+
+                    }
+                }
+                displayTableItems(main_dict) // update the main table data 
+
+
+                // now deal with the separate pay content
+                sep_items.push(item);
+                let dict = dict_store(sep_items);
+                $("#sep_content").html('');
+                $("#sep_content").append('<h2 class="bg-info text-center text-light p-2">Table - ' + table_id + '</h2>');
+                let total = 0;
+                for (let key in dict) {
+                    let price = item_price(key);
+                    total += price * dict[key];
+                    $("#sep_content").append('<button class="btn btn-success m-2 sep_items" value = "' + key + '">' + key + '<span class= "badge badge-dark m-1 p-2" > ' + dict[key] + '</span ></button><br>');
+                }
+
+                // load the total amount
+                let hst = (total * 0.13).toFixed(2)
+                let sep_total = (total + Number(hst)).toFixed(2)
+                $("#sep_total_seb").text(total.toFixed(2))
+                $("#sep_hst").text(hst)
+                $("#sep_total").text(sep_total)
+
+            }
+
+            // Removing items from the separate pay container
+            function separate_pay_remove_content(item) {
+
+                // loop through the main data and remove item
+                for (let key in main_dict) {
+                    if (key === item) {
+                        main_dict[key] += 1;
+                    }
+                }
+                displayTableItems(main_dict) // update the main table data 
+
+                // now deal with the separate pay content
+                // find matched item
+                const index = sep_items.indexOf(item)
+                if (index > -1) { sep_items.splice(index, 1) }
+                let dict = dict_store(sep_items);
+                $("#sep_content").html('');
+                $("#sep_content").append('<h2 class="bg-info text-center text-light p-2">Table - ' + table_id + '</h2>');
+                let total = 0;
+                for (let key in dict) {
+                    let price = item_price(key);
+                    total += price * dict[key];
+                    $("#sep_content").append('<button class="btn btn-success m-2 sep_items" value = "' + key + '">' + key + '<span class= "badge badge-dark m-1 p-2" > ' + dict[key] + '</span ></button><br>');
+                }
+
+                // load the total amount
+                let hst = (total * 0.13).toFixed(2)
+                let sep_total = (total + Number(hst)).toFixed(2)
+                $("#sep_total_seb").text(total.toFixed(2))
+                $("#sep_hst").text(hst)
+                $("#sep_total").text(sep_total)
+
+            }
+
+
+            /**
+             * calculating the item price and return the value
+             *
+             * param {any} item
+             */
+            function item_price(item) {
+                let price = 0;
+                let amount = "";
+
+                if (item.length !== 0) {
+                    let i = 0;
+                    while (i < item.length) {
+                        if (item[i] === '$') {
+                            amount = "";
+                            i++;
+                            while (item[i] !== " " && item[i] !== '$' && i < item.length) {
+                                amount += item[i];
+                                i++;
+                            }
+                            price = parseFloat(amount);
+                        } else {
+                            i++;
+                        }
+                    }
+
+                    return price; // return total
+                }
+                return price;
+
+            }
+            //sep form submition
+            $("#sep_form").submit(function () {
+                let items = sep_items.join(',');
+                $("#tableId").val(table_id);
+                $("#finalSepTotal").val($("#sep_total").text());
+                $("#paidItemsInput").val(items.toString());
+                return true;
+            });
+
+            // clear table button event
+            $("#clear_btn").click(function () {
+                if (confirm("Ary you sure you want to clear this Table?")) {
+                    let tableId = isInteger(table_id);
+                    if (tableId) {
+                        /* sending request to clear the table */
+                        $.ajax({
+                            type: "Post",
+                            url: "/Cashier/ClearTable",
+                            data: { id: table_id },
+                            success: function (data) {
+                                window.location.href = "/Cashier";
+                            },
+                            error: function (req, status, error) {
+                                //console.log(msg);
+                            }
+                        });
+                    }
+                } else {
+
+                }
+            });
+            /**
+             *
+             *  validation method that validate the any integer value. (mostly used for table Id)
+             */
+            function isInteger(value) {
+                return /^\d+$/.test(value);
+            }
+        });
+    </script>
+
 }

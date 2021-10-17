@@ -257,7 +257,9 @@ namespace Restaurant.Controllers
         {
             if (id == 0 || paidItems == null)
             {
-                return NotFound();
+                //return NotFound();
+                ViewBag.ErrorMessage = "The Process Cannot be completed! Please Try Again.";
+                return RedirectToAction(nameof(Index));
             }
             try
             {

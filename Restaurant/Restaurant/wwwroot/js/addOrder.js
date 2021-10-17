@@ -250,9 +250,15 @@ $(document).ready(function () {
     });
 
     function tableInfo(data) {
-        if (data !== null) {
+        if (data.tableItems !== null) {
+            console.log("table info is not null!")
             loadItems(data.tableItems);
-            setTotal(2,data.total);
+            setTotal(2, data.total);
+        } else {
+            console.log("table info is null!")
+            addedItems = [];
+            $("#custom-left").html("");
+            setTotal(2, data.total);
         }
     }
     /**
@@ -261,7 +267,7 @@ $(document).ready(function () {
      * @param {any} data
      */
     function loadItems(data) {
-        if (data !== null) {
+        if (data.tableItems !== null) {
             addedItems = [];  // clearing old items
             let items = data.split(',');
             let i = 0;
