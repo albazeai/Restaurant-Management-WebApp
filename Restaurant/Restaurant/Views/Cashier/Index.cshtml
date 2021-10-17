@@ -176,65 +176,48 @@
             });
                 /* Adding items to separat pay container */
             $("#table-info").on("click", ".table_items", function () {
-                separate_pay_add_content($(this).val())
+                separate_pay_content($(this).val(), "add")
             });
             /* Removing items from separat pay container */
             $("#sep_content").on("click", ".sep_items", function () {
-                separate_pay_remove_content($(this).val())
+                separate_pay_content($(this).val(), "remove")
             });
 
-            // Adding items to the separate pay container
+            // array will store and remove items from separate pay container
             let sep_items = []
-            function separate_pay_add_content(item) {
+
+            /**
+             * the separate pay container changes (Add , Remove) items according to flag
+             * param item  selected item
+             * param flag  add or remove 
+             */
+            function separate_pay_content(item, flag) {
 
                 // loop through the main data and remove item
-                for (let key in main_dict) {
-                    if (key === item) {
-                        if (main_dict[key] > 0) {
-                            main_dict[key] -= 1;
+                if (flag === "remove") {
+                    for (let key in main_dict) {
+                        if (key === item) {
+                            main_dict[key] += 1;
                         }
-
                     }
-                }
-                displayTableItems(main_dict,false) // update the main table data 
-
-
-                // now deal with the separate pay content
-                sep_items.push(item);
-                let dict = dict_store(sep_items);
-                $("#sep_content").html('');
-                $("#sep_content").append('<h2 class="bg-info text-center text-light p-2">Table - ' + table_id + '</h2>');
-                let total = 0;
-                for (let key in dict) {
-                    let price = item_price(key);
-                    total += price * dict[key];
-                    $("#sep_content").append('<button class="btn btn-success m-2 sep_items" value = "' + key + '">' + key + '<span class= "badge badge-dark m-1 p-2" > ' + dict[key] + '</span ></button><br>');
-                }
-
-                // load the total amount
-                let hst = (total * 0.13).toFixed(2)
-                let sep_total = (total + Number(hst)).toFixed(2)
-                $("#sep_total_seb").text(total.toFixed(2))
-                $("#sep_hst").text(hst)
-                $("#sep_total").text(sep_total)
-
-            }
-
-            // Removing items from the separate pay container
-            function separate_pay_remove_content(item) {
-
-                // loop through the main data and remove item
-                for (let key in main_dict) {
-                    if (key === item) {
-                        main_dict[key] += 1;
+                    // find matched item
+                    const index = sep_items.indexOf(item)
+                    if (index > -1) {
+                        sep_items.splice(index, 1)  // remove item from separate pay content
                     }
-                }
-                displayTableItems(main_dict,false) // update the main table data 
+                } else if (flag === "add") {
+                    // loop through the main data and remove item
+                    for (let key in main_dict) {
+                        if (key === item) {
+                            if (main_dict[key] > 0) {
+                                main_dict[key] -= 1;
+                            }
 
-                // now deal with the separate pay content
-                // find matched item
-                const index = sep_items.indexOf(item)
-                if (index > -1) { sep_items.splice(index, 1) }
+                        }
+                    }
+                    sep_items.push(item);  // add item to separate pay content
+                }
+                displayTableItems(main_dict, false) // update the main table data 
                 let dict = dict_store(sep_items);
                 $("#sep_content").html('');
                 $("#sep_content").append('<h2 class="bg-info text-center text-light p-2">Table - ' + table_id + '</h2>');
