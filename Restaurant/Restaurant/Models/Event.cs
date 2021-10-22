@@ -19,7 +19,11 @@ namespace Restaurant.Models
 
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
-        [Display(Name = "End Date")]
-        public DateTime EndDate { get; set; }
+
+        [Display(Name = "Reservation Required")]
+        public bool ReservationRequired { get; set; }
+
+        [Display(Name = "Image")]
+        public byte[] EventImage { get; set; }
     }
 }

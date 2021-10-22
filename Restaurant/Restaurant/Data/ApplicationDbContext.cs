@@ -19,5 +19,6 @@ namespace Restaurant.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

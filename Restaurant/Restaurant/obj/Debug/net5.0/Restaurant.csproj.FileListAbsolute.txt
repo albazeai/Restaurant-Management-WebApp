@@ -68,7 +68,6 @@ C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\D
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Restaurant.RazorCoreGenerate.cache
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
@@ -234,11 +233,6 @@ C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\D
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Messages\Details.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Messages\Edit.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Messages\Index.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Create.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Delete.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Details.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Edit.cshtml.g.cs
-C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Index.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Shared\_AdminNav.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Cashier\AddOrder.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Cashier\CashEvents.cshtml.g.cs
@@ -251,3 +245,14 @@ C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\D
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Kitchen\KitEvents.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Users\SetNewPassword.cshtml.g.cs
 C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Shared\_KitchenNav.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Create.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Delete.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Details.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Edit.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Events\Index.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Reservations\Create.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Reservations\Delete.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Reservations\Details.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Reservations\Edit.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Reservations\Index.cshtml.g.cs
+C:\Users\Malba\OneDrive\Documents\RestaurantCapstone\Restaurant\Restaurant\obj\Debug\net5.0\Razor\Views\Home\Menu.cshtml.g.cs

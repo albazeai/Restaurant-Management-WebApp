@@ -1,28 +1,38 @@
-﻿
+﻿@*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><em>KITCHEN</em></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><em>KITCHEN</em></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="Index">Current Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="KitEvents">Scheduled Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="FoodMenu">Food-Menu</a>
+                    </li>
+                </ul>
 
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="Index">Current Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="KitEvents">Scheduled Events</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="FoodMenu">Food-Menu</a>
-                </li>
-            </ul>
+                <partial name="_LoginPartial" />
 
-            <partial name="_LoginPartial" />
-
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>*@
+
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="Index">Current Orders</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="KitEvents">Scheduled Events</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Kitchen" asp-action="FoodMenu">Food-Menu</a>
+    </li>
+</ul>

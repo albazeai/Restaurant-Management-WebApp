@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Restaurant.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h1 class="bg-info text-light text-center p-3">On Call Reservations</h1>
+
+<div>
+    <a asp-action="Create" class="btn btn-primary">Add New Reservation</a>
+</div>
+<hr />
+
+<form asp-action="Index" method="post" class="form-inline mt-3 mb-3">
+    <div class="form-group">
+        <strong>Find By Name/Phone: &emsp;</strong>
+        <input name="searchString" class="form-control" placeholder="search" />
+    </div>
+    <div class="form-group ml-2">
+        <input type="submit" value="Find" class="btn btn-success" /> &emsp;|&emsp;
+        <a asp-action="Index" class="btn btn-primary">Display All</a>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.People)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attendance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.People)
+                </td>
+                <td class="attendances">
+                    @Html.DisplayFor(modelItem => item.Attendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmationPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.Title)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            // if attendance checkd change the background to green
+            $(".attendances").each(function (i, obj) {
+                let v = $(this).children('input[type="checkbox"]')
+                if (v.prop("checked") === true) {
+                    $(this).css({ "background-color": "lightgreen" })
+                }
+            });          
+        });
+    </script>
+}

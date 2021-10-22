@@ -18,6 +18,10 @@ namespace Restaurant.Models
         [Required]
         public double Price { get; set; }
 
+        [Display(Name = "Image")]
+        public byte[] DrinkImage { get; set; }
+
+
         [ForeignKey("CategoryId")]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }

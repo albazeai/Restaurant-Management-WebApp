@@ -8,59 +8,47 @@
     ViewData["Title"] = "_CashierNav";
 }
 
-<nav class="navbar navbar-expand-sm navbar-toggler-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><em>CASHIER</em></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls=".navbar-collapse"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse1">
+
+<ul class="navbar-nav flex-grow-1">
+
+    <li class="nav-item">
+        @*<a class="nav-link text-dark" asp-area="" asp-controller="Tables" asp-action="Index">Tables</a>*@
+        <select class="form-control btn btn-success custom-select custom-select-lg" id="tableSelecterIndex">
+            <option>Tables in Use</option>
+            @{
+                try
+                {
+                    var tables = _context.Tables.Where(x => x.TableItems != null);
+                    foreach (Table item in tables)
+                    {
+                        <option value="@item.TableId">Table - @item.TableId</option>
+                    }
+                }
+                catch (NullReferenceException)
+                {
+
+                }
+
+            }
+
+        </select>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="Index">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Add Order</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="CashOrderStatus">Order-Status<span id="completedOrders" class="badge badge-danger m-1"></span></a>
+        
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Reservations" asp-action="Index">Reservations</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="CashEvents">Scheduled Events</a>
+    </li>
 
 
-
-            <ul class="navbar-nav flex-grow-1">
-
-                <li class="nav-item">
-                    @*<a class="nav-link text-dark" asp-area="" asp-controller="Tables" asp-action="Index">Tables</a>*@
-                    <select class="form-control btn btn-success custom-select custom-select-lg" id="tableSelecterIndex">
-                        <option>Tables in Use</option>
-                        @{
-                            try
-                            {
-                                var tables = _context.Tables.Where(x => x.TableItems != null);
-                                foreach (Table item in tables)
-                                {
-                                    <option value="@item.TableId">Table - @item.TableId</option>
-                                }
-                            }
-                            catch (NullReferenceException)
-                            {
-
-                            }
-
-                        }
-
-                    </select>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Add Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="CashOrderStatus">Order-Status</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info ml-1" asp-area="" asp-controller="Cashier" asp-action="CashEvents">Scheduled Events</a>
-                </li>
-
-
-            </ul>
-
-            <partial name="_LoginPartial" />
-
-        </div>
-    </div>
-</nav>
+</ul>

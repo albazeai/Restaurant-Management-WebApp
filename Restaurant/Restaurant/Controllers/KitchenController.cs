@@ -49,30 +49,6 @@ namespace Restaurant.Controllers
             }
             return View(await _context.Foods.Include(f => f.Category).ToListAsync());
 
-
-
-            //var item = from n in userManager.Users select n;
-            //if (!string.IsNullOrEmpty(value))
-            //{
-            //    var item = _context.Foods.FirstOrDefault(i => i.FoodName.Trim() == value.Trim());
-            //    ViewBag.SearchedItem = value;
-
-            //    if (item != null)
-            //    {
-            //        var items = _context.Foods.Where(i => i.CategoryId == item.CategoryId);
-            //        return View( await items.ToListAsync());
-            //    }
-
-            //    //if (!string.IsNullOrEmpty(value))
-            //    //{
-            //    //    //item = item.Where(a => a.LastName.Contains(value) || a.PhoneNumber.Contains(value));
-            //    //    return View(item);
-            //    //}
-            //    return View(await _context.Foods.Include(f => f.Category).ToListAsync());
-            //}
-
-            //return View(await _context.Foods.Include(f => f.Category).ToListAsync());
-
         }
 
         [HttpPost]

@@ -1,0 +1,47 @@
+﻿@model Restaurant.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Reservation Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.People)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.People)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Attendance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Attendance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ConfirmationName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ConfirmationName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ConfirmationPhone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ConfirmationPhone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Event.Title)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

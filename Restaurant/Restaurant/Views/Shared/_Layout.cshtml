@@ -2,7 +2,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,66 +11,70 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
+    <style>
+        /*zoom-in content menu items*/
+        .customZoom {
+            transition: transform .2s;
+/*            width: 200px;
+            height: 200px;
+            margin: 0 auto;*/
+        }
+        .customZoom:hover {
+            -ms-transform: scale(1.5); /* IE 9 */
+            -webkit-transform: scale(1.5); /* Safari 3-8 */
+            transform: scale(1.5);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-light">
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Restaurant</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">*@
-        @*<ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Cashier" asp-action="Index">Cashier</a>
-                </li>
-            </ul>*@
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-        @{
-            if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-            {
-                <partial name="_AdminNav" />
+                    @{
+                        if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <partial name="_AdminNav" />
 
-            }
-            else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cashier"))
-            {
-                <partial name="_CashierNav" />
-                @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
-                    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                    <script src="~/js/site.js" asp-append-version="true"></script>*@
-                @*<script src="~/js/addOrder.js"></script>
-                <script src="~/js/cashierIndex.js"></script>*@
+                        }
+                        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cashier"))
+                        {
+                            <partial name="_CashierNav" />
 
-            }
-            else if (SignInManager.IsSignedIn(User) && User.IsInRole("Kitchen"))
-            {
-                <partial name="_KitchenNav" />
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="~/js/site.js" asp-append-version="true"></script>
-                <script src="~/js/kitchenOrders.js"></script>
-            }
-            else
-            {
-                <partial name="_LoginPartial" />
-            }
-        }
+                        }
+                        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Kitchen"))
+                        {
+                            <partial name="_KitchenNav" />
+                            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                            <script src="~/js/site.js" asp-append-version="true"></script>
+                            <script src="~/js/kitchenOrders.js"></script>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
+                                </li>
+                            </ul>
 
-
-        @*</div>
+                        }
+                    }
+                    <partial name="_LoginPartial" />
                 </div>
-            </nav>*@
+            </div>
+        </nav>
     </header>
-    <div class="container">
+    <div class="container mb-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -79,18 +82,49 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Restaurant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Restaurant - &#128222; <a href="tel:+1-905-154-242" class="active">+1-905-154-242</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @*<script src="~/js/cashierIndex.js"></script>*@
-
-    @*<script src="~/js/addOrder.js"></script>
-        <script src="~/js/cashierIndex.js"></script>
-        <script src="~/js/kitchenOrders.js"></script>*@
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    @* order ready notifications updates only for cashier users *@
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Cashier"))
+    {
+        <script>
+            setInterval(
+                function getMessages() {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Cashier/GetMessages",
+                        data: {},
+                        success: function (data) {
+                            // count ready orders
+                            if (data !== null) {
+                                let count = 0;
+                                for (let item of data) {
+                                    if (item.status.trim() === 'Complete') {
+                                        count++;
+                                    }
+                                }
+                                if (count > 0) {
+                                    $('#completedOrders').text('' + count);  // Ready orders notification
+                                }
+                            }
+
+                        },
+                        error: function (req, status, error) {
+                        }
+                    });
+
+                }, 1000);
+        </script>
+
+    }
+
+
 </body>
 </html>

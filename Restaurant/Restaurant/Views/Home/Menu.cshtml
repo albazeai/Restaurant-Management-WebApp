@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Restaurant.Models.Food>
+
+@{
+    ViewData["Title"] = "Menu";
+}
+<form asp-action="Menu" method="post" class="form-inline">
+    <div class="form-group">
+        <strong>Filter By Category: &emsp;</strong>
+        <select name="category" asp-items="@ViewBag.Categories" class="form-control"></select>
+    </div>
+    <div class="form-group ml-2">
+        <input type="submit" value="Filter" class="btn btn-primary" /> &emsp;|&emsp;
+        <a asp-action="Menu"> All Items</a>
+    </div>
+</form>
+<hr />
+
+
+@if (Model != null)
+{
+    <h1 class="bg-danger text-light text-center p-3 mt-2 mb-2">Our Food</h1>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                try
+                {
+                    var imgSrc = "";
+                    if (item.FoodImage != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.FoodImage);
+                        imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    }
+
+                    <div class="col-md-6 col-lg-4 mb-1 text-center">
+                        <div class="card" style="width: 18rem;">
+                            <img src="@imgSrc" class="card-img-top customZoom" style="width:100%;height:200px;" alt="">
+                            <div class="card-body">
+                                <h2 class="card-title">@item.FoodName.Replace('-', ' ')</h2>
+                                <h3 class="card-text">$@item.Price</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                catch (Exception) { continue; }
+
+            }
+        </div>
+    </div>
+}
+
+
+@if (ViewBag.Drinks != null)
+{
+    <h1 class="bg-danger text-light text-center p-3 mt-2 mb-2">Our Drinks</h1>
+    <div class="container">
+        <div class="row">
+
+            @foreach (Drink item in ViewBag.Drinks)
+            {
+                try
+                {
+                    var imgSrc = "";
+                    if (item.DrinkImage != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.DrinkImage);
+                        imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    }
+                    <div class="col-md-6 col-lg-4 mb-1 text-center">
+                        <div class="card" style="width: 18rem;">
+                            <img src="@imgSrc" class="card-img-top customZoom" style="width:100%;height:200px;" alt="">
+                            <div class="card-body">
+                                <h2 class="card-title">@item.DrinkName.Replace('-', ' ')</h2>
+                                <h3 class="card-text">$@item.Price</h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+            }
+        </div>
+    </div>
+}
+
+
+
+

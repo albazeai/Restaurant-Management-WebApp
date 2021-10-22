@@ -16,7 +16,7 @@ namespace Restaurant.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -277,6 +277,9 @@ namespace Restaurant.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("DrinkImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("DrinkName")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
@@ -301,8 +304,11 @@ namespace Restaurant.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<byte[]>("EventImage")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("ReservationRequired")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -369,6 +375,36 @@ namespace Restaurant.Migrations
                     b.HasKey("MessageId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Restaurant.Models.Reservation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Attendance")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ConfirmationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConfirmationPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("People")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Restaurant.Models.Table", b =>
@@ -458,6 +494,17 @@ namespace Restaurant.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Restaurant.Models.Reservation", b =>
+                {
+                    b.HasOne("Restaurant.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
                 });
 #pragma warning restore 612, 618
         }

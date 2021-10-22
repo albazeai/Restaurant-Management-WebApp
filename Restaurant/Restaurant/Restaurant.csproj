@@ -10,8 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -20,6 +20,16 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\image-1.jpg" />
+    <None Include="wwwroot\images\image-2.jpg" />
+    <None Include="wwwroot\images\image-3.jpg" />
+    <None Include="wwwroot\images\image-4.jpg" />
+    <None Include="wwwroot\images\image-5.jpg" />
+    <None Include="wwwroot\images\image-6.jpg" />
+    <None Include="wwwroot\images\image-7.jpg" />
   </ItemGroup>
 
 </Project>
