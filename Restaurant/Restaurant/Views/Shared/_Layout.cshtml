@@ -27,9 +27,10 @@
     </style>
 </head>
 <body class="bg-light">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+
+    <header id="top">
+        <nav class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            @*<div class="container">*@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Restaurant</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -65,21 +66,24 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="/#contactUs">Contact Us</a>
+                                </li>
                             </ul>
 
                         }
                     }
                     <partial name="_LoginPartial" />
                 </div>
-            </div>
+            @*</div>*@
         </nav>
     </header>
     <div class="container mb-5">
         <main role="main" class="pb-3">
             @RenderBody()
+            <div class="m-2"><a class="btn btn-secondary" href="#top">Top</a></div>
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - Restaurant - &#128222; <a href="tel:+1-905-154-242" class="active">+1-905-154-242</a>

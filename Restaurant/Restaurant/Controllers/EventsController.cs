@@ -151,9 +151,6 @@ namespace Restaurant.Controllers
                         var event2 = _context.Events.First(e=>e.EventId == @event.EventId);
                         _context.Entry(event2).CurrentValues.SetValues(@event);
                         await _context.SaveChangesAsync();
-
-                        //_context.Update(@event);
-                        //await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -168,10 +165,6 @@ namespace Restaurant.Controllers
                     if (!EventExists(@event.EventId))
                     {
                         return NotFound();
-                    }
-                    else
-                    {
-                        //throw;
                     }
                 }
 

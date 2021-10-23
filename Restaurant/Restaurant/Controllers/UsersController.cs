@@ -29,12 +29,6 @@ namespace Restaurant.Controllers
             return View(users);
 
         }
-        //public IActionResult Details(string id)
-        //{
-        //    var user = userManager.Users.FirstOrDefault(x => x.Id == id);
-        //    return View(user);
-
-        //}
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)

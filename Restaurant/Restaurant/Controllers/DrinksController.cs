@@ -143,8 +143,6 @@ namespace Restaurant.Controllers
                     var drink2 = _context.Drinks.First(g => g.DrinkId == drink.DrinkId);
                     _context.Entry(drink2).CurrentValues.SetValues(drink);
                     await _context.SaveChangesAsync();
-                    //_context.Update(drink);
-                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

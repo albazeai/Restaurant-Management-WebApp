@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\images\image-1.jpg" />
     <None Include="wwwroot\images\image-2.jpg" />
     <None Include="wwwroot\images\image-3.jpg" />

@@ -27,7 +27,6 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> FoodMenu()
         {
             var database = _context.Foods.Include(f => f.Category);
-            //ViewBag.Categories = _context.Categories.ToList();
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View(await database.ToListAsync());
         }
@@ -36,11 +35,7 @@ namespace Restaurant.Controllers
         {
             var selected = _context.Categories.FirstOrDefault(c => c.CategoryId.ToString() == value1);
             ViewBag.SelectedCategory = selected.CategoryName;
-
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "CategoryName", value1);
-            //List<SelectListItem> dropdownlist = _context.Categories.ToList();
-            //var selected = _context.Categories.Where(c=>c.CategoryId.ToString() == value1);
-            //ViewBag.Categories = dropdownlist.Items.FindByText(selected).Selected = true;
             if (!string.IsNullOrEmpty(value1))
             {
                 var t = _context.Foods.Where(i=>i.CategoryId.ToString() == value1).Include(f=>f.Category);
@@ -55,29 +50,6 @@ namespace Restaurant.Controllers
         public async Task<List<Message>> KitOrderStatus()
         {
             var message = await _context.Messages.ToListAsync();
-            //foreach (Message m in message)
-            //{
-            //    if (m.Items != null)
-            //    {
-            //        string []items = m.Items.Split(',');
-            //        foreach (var item in items)
-            //        {
-            //            var i = item;
-            //            int count = 0;
-            //            string t = "";
-            //            foreach (var k in items)
-            //            {
-            //                if (k == i)
-            //                {
-            //                    count++;
-            //                    t = k;
-            //                }
-            //            }
-
-
-            //        }
-            //    }
-            //}
             return message;
         }
 
@@ -95,11 +67,6 @@ namespace Restaurant.Controllers
             }
             message.Status = status;
 
-            //if (id != message.MessageId)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
@@ -109,18 +76,9 @@ namespace Restaurant.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    //if (!MessageExists(message.MessageId))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(message);
             return null;
         }
 
@@ -141,7 +99,6 @@ namespace Restaurant.Controllers
                 return NotFound();
             }
 
-            //return View(food);
             return Ok(food);
         }
 

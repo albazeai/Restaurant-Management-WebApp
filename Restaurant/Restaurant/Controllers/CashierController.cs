@@ -59,10 +59,7 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> GetUsedTables()
         {
             var usedTables = await _context.Tables.Where(t => t.TableItems != "").ToListAsync();
-            // context.Students.Where(s => s.FirstName == GetName()).ToList();
             return View(usedTables);
-            //return View();
-
         }
 
         [HttpPost]
@@ -115,42 +112,6 @@ namespace Restaurant.Controllers
 
             if (ModelState.IsValid)
             {
-                //string []items = message.Items.Split(',');
-                //string foodItems = "";
-                //string name = "";
-                ////Soft - Drink $2,,Soft - Drink $2,,Shawarma - Poutine $6.95,,Shawarma - Poutine $6.95,
-                //foreach (var item in items)
-                //{
-                //    foreach (var c in item.Trim())
-                //    {
-                //        bool isLetter = Char.IsLetter(c);
-                //        if (c != '$')
-                //        {
-                //            name += c;
-                //        }
-                //        //else if (c == '-')
-                //        //{
-                //        //    name += c;
-                //        //}
-                //        else
-                //        {
-                //            var getItem = _context.Foods.FirstOrDefault(x => x.FoodName == name.Trim());
-                //            if (getItem != null)
-                //            {
-                //                foodItems += name + ",";
-                //            }
-                //        }
-                //    }
-                //}
-                //if (foodItems.Trim() == "")
-                //{
-                //    return false;
-                //}
-                //message.Items = foodItems;
-                //_context.Add(message);
-                //await _context.SaveChangesAsync();
-                //return true;
-
                 string items = message.Items;
                 string name = "";
                 string foodItems = "";
@@ -257,8 +218,6 @@ namespace Restaurant.Controllers
         {
             if (id == 0 || paidItems == null)
             {
-                //return NotFound();
-                ViewBag.ErrorMessage = "The Process Cannot be completed! Please Try Again.";
                 return RedirectToAction(nameof(Index));
             }
             try
@@ -338,7 +297,6 @@ namespace Restaurant.Controllers
 
             }
 
-            ViewBag.ErrorMessage = "The Process Cannot be completed! Please Try Again.";
             return RedirectToAction(nameof(Index));
         }
     }
