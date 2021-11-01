@@ -64,8 +64,23 @@ namespace Restaurant.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Events.Where(e=>e.ReservationRequired == true), "EventId", "Title");
-            return View();
+            try
+            {
+                var reservations = _context.Events.Where(e => e.ReservationRequired == true);
+                if (reservations == null)
+                {
+                    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
+                }
+
+                ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title");
+                return View();
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+
+            
         }
 
         // POST: Reservations/Create
@@ -79,7 +94,7 @@ namespace Restaurant.Controllers
             
             if (ModelState.IsValid)
             {
-                if (reservation.EventId.ToString() != "")
+                if (reservation.EventId > 0)
                 {
 
                     var reserved = await _context.Reservations.Where(e=>e.EventId == reservation.EventId).ToListAsync();  // get all the reservation
@@ -91,7 +106,7 @@ namespace Restaurant.Controllers
                         reservation.Id = Guid.NewGuid();
                         _context.Add(reservation);
                         await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index)); ;
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {

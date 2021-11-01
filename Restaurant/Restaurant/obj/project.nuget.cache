@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1iqDZR4AdFsRxhWVUXr/a75iM+Xl/0dZN6yhxZqbV1Q8XTMt6Tt7seomhqkRJvwCt6VL72kWh8H6FuEC+tzgtA==",
+  "dgSpecHash": "QEeZ0JrzQwxymf8xvyFrg3Q6wYltSx39wWljexdI8Ogp4q0G1+30vlL0mLKVt++6O3AbgTyTzSo9VHumuiDSeA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Malba\\OneDrive\\Documents\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
+  "projectFilePath": "D:\\myProjects\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Malba\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\Malba\\.nuget\\packages\\castle.windsor\\5.1.1\\castle.windsor.5.1.1.nupkg.sha512",

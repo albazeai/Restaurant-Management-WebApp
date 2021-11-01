@@ -56,7 +56,7 @@
 </div>
 
 <div class="text-center bg-info p-3 text-light">
-    <h1 class="display-4">Restaurant Events</h1>
+    <h1 class="display-4" id="events">Restaurant Events</h1>
 </div>
 
 <hr class="w-50 mb-5 mt-5">
@@ -73,7 +73,7 @@
                     {
                         var base64 = Convert.ToBase64String(item.EventImage);
                         var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
-                        <img src='@imgSrc' class="shadow-lg p-3 mb-5 bg-white rounded" style="width:500px;height:500px" />
+                        <img src='@imgSrc' class="shadow-lg p-3 mb-5 bg-white rounded" style="width:100%;height:500px" />
                     }
                     catch (Exception) { }
                 }
@@ -118,7 +118,7 @@
                         {
                             var base64 = Convert.ToBase64String(item.EventImage);
                             var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
-                            <img src='@imgSrc' class="shadow-lg p-3 mb-5 bg-white rounded" style="width:500px;height:500px" />
+                            <img src='@imgSrc' class="shadow-lg p-3 mb-5 bg-white rounded" style="width:100%;height:500px" />
                         }
                         catch (Exception) { }
                     }
@@ -136,5 +136,7 @@
     <p class="lead text-center">Give us a call today to make Order / Reservation for one of the listed events above.</p>
     <hr class="my-4">
     <h2 class="text-center">&#128222; <a href="tel:+1-905-154-242" class="active">+1-905-154-242</a></h2>
-
 </div>
+
+<div class="m-2"><a class="btn btn-secondary" href="#top">Top</a></div>
+

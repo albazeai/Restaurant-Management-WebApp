@@ -9483,11 +9483,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Malba\\OneDrive\\Documents\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
+      "projectUniqueName": "D:\\myProjects\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
       "projectName": "Restaurant",
-      "projectPath": "C:\\Users\\Malba\\OneDrive\\Documents\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
+      "projectPath": "D:\\myProjects\\RestaurantCapstone\\Restaurant\\Restaurant\\Restaurant.csproj",
       "packagesPath": "C:\\Users\\Malba\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Malba\\OneDrive\\Documents\\RestaurantCapstone\\Restaurant\\Restaurant\\obj\\",
+      "outputPath": "D:\\myProjects\\RestaurantCapstone\\Restaurant\\Restaurant\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

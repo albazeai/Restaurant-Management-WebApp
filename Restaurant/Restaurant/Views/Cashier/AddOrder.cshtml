@@ -43,9 +43,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>*@
 @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse2">*@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
     @*<a class="navbar-brand" href="#">Navbar</a>*@
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler m-1" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -84,24 +84,31 @@
                     </select>
                 </div>
                 @*<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                        <li class="nav-item">
-                            <a class="dropdown-item" asp-area="" asp-controller="Drinks" asp-action="Index">Drinks</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li class="nav-item">
-                            <a class="dropdown-item" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>*@
+                    <li class="nav-item">
+                        <a class="dropdown-item" asp-area="" asp-controller="Drinks" asp-action="Index">Drinks</a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="nav-item">
+                        <a class="dropdown-item" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>*@
             </li>
 
         </ul>
+        <div class="float-right mr-2">
+            @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
+            <button class="btn btn-success border border-white" id="saveBtn">Save</button>
+            <button type="button" class="btn btn-success border border-white ml-1" data-toggle="modal" data-target="#staticBackdrop">
+                Save & Kitchen
+            </button>
+        </div>
     </div>
-    <div class="float-right mr-2">
+    <!--<div class="float-right mr-2">-->
         @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
-        <button class="btn btn-success border border-white" id="saveBtn">Save</button>
-    </div>
+        <!--<button class="btn btn-success border border-white" id="saveBtn">Save</button>
+    </div>-->
     @*send copy to kitchen form*@
     @*<div class="float-right mr-2">
             <button class="btn btn-success border border-white" id="toKitchenBtn">Save & Kitchen</button>
@@ -121,9 +128,9 @@
     @*statrt test for modal box*@
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success border border-white mr-2" data-toggle="modal" data-target="#staticBackdrop">
+    @*<button type="button" class="btn btn-success border border-white mr-2" data-toggle="modal" data-target="#staticBackdrop">
         Save & Kitchen
-    </button>
+    </button>*@
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -156,7 +163,7 @@
     @*end test*@
 
 
-    <div class="float-right">
+    <div class="float-right ml-1">
         <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
     </div>
     @*</div>*@
@@ -228,8 +235,8 @@
                         </div>
                     </div>
 
-                    <div class="border border-success">
-                        <h2 class="bg-info text-light text-center p-3">Alcoholic</h2>
+                    <!--<div class="border border-success">
+                        <h2 class="bg-info text-light text-center p-3">Alcoholic</h2>-->
                         @*<div class="p-3">
                                 @{
                                     try
@@ -249,7 +256,7 @@
                                     }
                                 }
                             </div>*@
-                    </div>
+                    <!--</div>-->
 
                 </div>
 
@@ -267,7 +274,6 @@
                                         if (item.Category.CategoryName.Trim().Contains("Pizza"))
                                         {
                                             <button class="btn btn-success m-2 buttons" value="@item.FoodName $@item.Price,">@item.FoodName $@item.Price</button>
-
                                         }
                                     }
                                 }

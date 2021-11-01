@@ -30,7 +30,6 @@ namespace Restaurant.Models
         [ForeignKey("EventId")]
         [Display(Name = "Event")]
         public int EventId { get; set; }
-
         public Event Event { get; set; }
     }
 }

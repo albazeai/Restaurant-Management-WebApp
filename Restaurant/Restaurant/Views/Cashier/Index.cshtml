@@ -156,7 +156,7 @@
                 // load the total amount
                 let hst = (total * 0.13).toFixed(2)
                 let table_total = (total + Number(hst)).toFixed(2)
-                $("#table_sebtotal").text(total)
+                $("#table_sebtotal").text(total.toFixed(2))
                 $("#table_hst").text(hst)
                 $("#table_total").text(table_total)
                 // show action buttons (pay ind, clear table)
@@ -270,39 +270,41 @@
             }
             //sep form submition
             $("#sep_form").submit(function () {
-                let items = sep_items.join(',');
+                if (confirm("Ary you sure you want to do this?")) {
+                    let items = sep_items.join(',');
 
-                /* sending request to proccess the separate pay and update the table items */ 
-                $.ajax({
-                    type: "Post",
-                    url: "/Cashier/SeparatePays",
-                    data: { id: table_id, paidItems: items.toString(), total: $("#sep_total").text()},
-                    success: function (data) {
+                    /* sending request to proccess the separate pay and update the table items */
+                    $.ajax({
+                        type: "Post",
+                        url: "/Cashier/SeparatePays",
+                        data: { id: table_id, paidItems: items.toString(), total: $("#sep_total").text() },
+                        success: function (data) {
 
-                        // reset separate pay containers
-                        sep_items = []
-                        $("#sep_content").html('');
-                        $("#sep_total_seb").text("0.00")
-                        $("#sep_hst").text("0.00")
-                        $("#sep_total").text("0.00")
+                            // reset separate pay containers
+                            sep_items = []
+                            $("#sep_content").html('');
+                            $("#sep_total_seb").text("0.00")
+                            $("#sep_hst").text("0.00")
+                            $("#sep_total").text("0.00")
 
-                        // check if anything left on the table 
-                        let flag = false;
-                        for (let key in main_dict) {
-                            if (main_dict[key] > 0) {
-                                flag = true;
+                            // check if anything left on the table 
+                            let flag = false;
+                            for (let key in main_dict) {
+                                if (main_dict[key] > 0) {
+                                    flag = true;
+                                }
                             }
-                        }
-                        // if somthing left on the table then display it otherwise clear the table
-                        if (flag) {
-                            displayTableItems(main_dict,false)
-                        } else {
-                            window.location.href = "/Cashier";
-                        }
+                            // if somthing left on the table then display it otherwise clear the table
+                            if (flag) {
+                                displayTableItems(main_dict, false)
+                            } else {
+                                window.location.href = "/Cashier";
+                            }
 
-                    },
-                    error: function (req, status, error) {  }
-                });
+                        },
+                        error: function (req, status, error) { }
+                    });
+                }
 
                 return false;
             });

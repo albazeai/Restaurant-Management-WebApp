@@ -89,7 +89,7 @@
 
         /* Removing message using cancel button */
         $('#main').on('click', '.cancel', function () {
-            if (confirm("Confirm Delete?")) {
+            if (confirm("You are about to cancel the order?")) {
                 let messageId = $(this).val();
                 $.ajax({
                     type: "Post",

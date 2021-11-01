@@ -38,10 +38,6 @@ namespace Restaurant
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
 
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) 
-            //     .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
             // Configure Identity
             services.Configure<IdentityOptions>(options =>
             {
@@ -51,9 +47,6 @@ namespace Restaurant
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
-
-            //services.AddDbContext<ApplicationDbContext>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
