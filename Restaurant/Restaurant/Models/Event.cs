@@ -25,5 +25,10 @@ namespace Restaurant.Models
 
         [Display(Name = "Image")]
         public byte[] EventImage { get; set; }
+        [Required]
+        [Display(Name = "Event Seats")]
+        public int ReservationSeats { get; set; }
+
+        public int Reserved { get; set; }
     }
 }

@@ -89,7 +89,13 @@
                 {
                     <h3>Reservation Required: <span class="text-danger">No</span></h3>
                 }
-                <h3 class="alert alert-success text-dark mt-5">Starts: @Html.DisplayFor(modelItem => item.StartDate)</h3>
+                <div>
+                    <p>Event Seats: <span class="badge badge-success">@Html.DisplayFor(modelItem => item.ReservationSeats)</span></p>
+                    <p>Reserved: <span class="badge badge-danger">@Html.DisplayFor(modelItem => item.Reserved)</span></p>
+                </div>
+                @{ var date = item.StartDate.ToString("dddd, dd MMMM yyyy hh:mm tt");}
+                <h3 class="alert alert-success text-dark mt-5">@date</h3>
+                <a class="btn btn-info mb-1" href="/#contactUs">Contact Us</a>
             </div>
         </div>
         <hr class="w-50 mb-5 mt-5">
@@ -109,7 +115,13 @@
                 {
                     <h3>Reservation Required: <span class="text-danger">No</span></h3>
                 }
-                <h3 class="alert alert-success text-dark mt-5">Starts: @Html.DisplayFor(modelItem => item.StartDate)</h3>
+                <div>
+                    <p>Event Seats: <span class="badge badge-success">@Html.DisplayFor(modelItem => item.ReservationSeats)</span></p>
+                    <p>Reserved: <span class="badge badge-danger">@Html.DisplayFor(modelItem => item.Reserved)</span></p>
+                </div>
+                @{ var date = item.StartDate.ToString("dddd, dd MMMM yyyy hh:mm tt");}
+                <h3 class="alert alert-success text-dark mt-5">@date</h3>
+                <a class="btn btn-info mb-1" href="/#contactUs">Contact Us</a>
             </div>
             <div class="col-sm-12 col-md-6">
                 <div class="">

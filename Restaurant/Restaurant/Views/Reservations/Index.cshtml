@@ -25,9 +25,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.People)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Attendance)
             </th>
             <th>
@@ -39,34 +36,39 @@
             <th>
                 @Html.DisplayNameFor(model => model.Event)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event.StartDate)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.People)
-                </td>
-                <td class="attendances">
-                    @Html.DisplayFor(modelItem => item.Attendance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConfirmationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConfirmationPhone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Event.Title)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td class="attendances">
+                @Html.DisplayFor(modelItem => item.Attendance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConfirmationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConfirmationPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Title)
+            </td>
+            <td>
+                @{ var date = item.Event.StartDate.ToString("ddd, dd MMM/yyy");} @*String.Format("{0:M/d/yyyy}",           dt);*@
+                @{ string s1 = item.Event.StartDate.ToString("dd MMM yyyy"); } @*String.Format("{0:M/d/yyyy}",           dt);*@
+
+                @*@Html.DisplayFor(modelItem => item.Event.StartDate)*@
+                @s1
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

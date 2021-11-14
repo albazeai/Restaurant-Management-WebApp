@@ -14,6 +14,7 @@
             <input type="hidden" asp-for="FoodId" />
             <div class="form-group">
                 <label asp-for="FoodName" class="control-label"></label>
+                <span>(if more then a word use '-' ex: Chicken-Wings)</span>
                 <input asp-for="FoodName" class="form-control" />
                 <span asp-validation-for="FoodName" class="text-danger"></span>
             </div>

@@ -37,6 +37,7 @@ namespace Restaurant.Controllers
             return View(views);
         }
 
+       
         [HttpPost]
         public async Task<IActionResult> AddOrder(Table table)
         {
@@ -56,11 +57,11 @@ namespace Restaurant.Controllers
             return null;
         }
 
-        public async Task<IActionResult> GetUsedTables()
-        {
-            var usedTables = await _context.Tables.Where(t => t.TableItems != "").ToListAsync();
-            return View(usedTables);
-        }
+        //public async Task<IActionResult> GetUsedTables()
+        //{
+        //    var usedTables = await _context.Tables.Where(t => t.TableItems != "").ToListAsync();
+        //    return View(usedTables);
+        //}
 
         [HttpPost]
         public async Task<Table> TableDetails(int id)
@@ -152,15 +153,27 @@ namespace Restaurant.Controllers
         // GET: Messages
         public async Task<IActionResult> CashOrderStatus()
         {
-            return View(await _context.Messages.Where(x => x.Status != "Picked Up").ToListAsync());
+            try
+            {
+                return View(await _context.Messages.Where(x => x.Status != "Picked Up").ToListAsync());
+            }
+            catch (Exception) { return View(); }
         }
 
 
         [HttpPost]
         public IActionResult GetMessages()
         {
-            var messages = _context.Messages.ToList();
-            return Ok(messages);
+            try
+            {
+                var messages = _context.Messages.ToList();
+                return Ok(messages);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
         [HttpPost]
@@ -177,10 +190,10 @@ namespace Restaurant.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> CashEvents()
-        {
-            return View(await _context.Events.ToListAsync());
-        }
+        //public async Task<IActionResult> CashEvents()
+        //{
+        //    return View(await _context.Events.ToListAsync());
+        //}
 
         // POST: Messages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

@@ -14,15 +14,16 @@
         /*zoom-in content menu items*/
         .customZoom {
             transition: transform .2s;
-/*            width: 200px;
+            /*            width: 200px;
             height: 200px;
             margin: 0 auto;*/
         }
-        .customZoom:hover {
-            -ms-transform: scale(1.5); /* IE 9 */
-            -webkit-transform: scale(1.5); /* Safari 3-8 */
-            transform: scale(1.5);
-        }
+
+            .customZoom:hover {
+                -ms-transform: scale(1.5); /* IE 9 */
+                -webkit-transform: scale(1.5); /* Safari 3-8 */
+                transform: scale(1.5);
+            }
     </style>
 </head>
 <body class="bg-light">
@@ -34,45 +35,45 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        <div class="navbar-collapse collapse justify-content-between">
+            <div class="navbar-collapse collapse justify-content-between">
 
-            @{
-                if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                {
-                    <partial name="_AdminNav" />
+                @{
+                    if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <partial name="_AdminNav" />
 
-                }
-                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cashier"))
-                {
-                    <partial name="_CashierNav" />
+                    }
+                    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cashier"))
+                    {
+                        <partial name="_CashierNav" />
 
-                }
-                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Kitchen"))
-                {
-                    <partial name="_KitchenNav" />
-                    @*<script src="~/js/kitchenOrders.js"></script>*@
-                }
-                else
-                {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item text-center">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item text-center">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
-                        </li>
-                        <li class="nav-item text-center">
-                            <a class="nav-link text-light" href="/#contactUs">Contact Us</a>
-                        </li>
-                        <li class="nav-item text-center">
-                            <a class="nav-link text-light" href="/#events">Events</a>
-                        </li>
-                    </ul>
+                    }
+                    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Kitchen"))
+                    {
+                        <partial name="_KitchenNav" />
+                        @*<script src="~/js/kitchenOrders.js"></script>*@
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item text-center">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item text-center">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
+                            </li>
+                            <li class="nav-item text-center">
+                                <a class="nav-link text-light" href="/#contactUs">Contact Us</a>
+                            </li>
+                            <li class="nav-item text-center">
+                                <a class="nav-link text-light" href="/#events">Events</a>
+                            </li>
+                        </ul>
 
+                    }
                 }
-            }
-            <partial name="_LoginPartial" />
-        </div>
+                <partial name="_LoginPartial" />
+            </div>
         </nav>
     </header>
 

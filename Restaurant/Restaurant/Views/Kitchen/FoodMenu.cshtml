@@ -55,9 +55,9 @@
                 <div class="text-center">
                     <img src="#" alt="" class="img-thumbnail" id="fimage" />
                 </div>
-                <div class="float-right">
+                <div class="">
                     <h2 class="text-center text-light bg-info p-2">Recipe</h2>
-                    <h4 id="itemDetails"></h4>
+                    <ul class="list-group" id="itemDetails"></ul>
                 </div>
             </div>
             <div class="modal-footer">
@@ -79,15 +79,14 @@
                 url: 'FoodDetails',
                 data: { id: id },
                 success: function (data) {
-                    let rec = "&#9989; " + data.recipes.split(',').join("<br><hr/>&#9989;");
+                    let rec = '<li class="list-group-item">' + data.recipes.split(',').join('<li class="list-group-item">');
                     $("#modalTitle").html(data.foodName);
-                    $("#itemDetails").html(rec);
+                    $("#itemDetails").append(rec);
                     $('#fimage').attr('src', `data:image/png;base64,${data.foodImage}`);
-                    $('#fimage').css({ "height": "auto", "width": "auto" });
+                    $('#fimage').css({ "height": "400px", "width": "auto" });
 
                 },
                 error: function (req, status, error) {
-                    console.log(msg);
                 }
             });
 

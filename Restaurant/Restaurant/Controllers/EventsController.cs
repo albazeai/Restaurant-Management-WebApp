@@ -24,7 +24,7 @@ namespace Restaurant.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            return View(await _context.Events.OrderBy(e=>e.StartDate).ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -56,7 +56,7 @@ namespace Restaurant.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,Title,Description,StartDate,ReservationRequired")] Event @event, List<IFormFile> EventImage)
+        public async Task<IActionResult> Create([Bind("EventId,Title,Description,StartDate,ReservationRequired,ReservationSeats,Reserved")] Event @event, List<IFormFile> EventImage)
         {
             if (ModelState.IsValid)
             {
@@ -77,6 +77,7 @@ namespace Restaurant.Controllers
                             }
                         }
                     }
+                    @event.Reserved = 0; // set reserved to 0
                     _context.Add(@event);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -111,7 +112,7 @@ namespace Restaurant.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,Title,Description,StartDate,ReservationRequired")] Event @event, List<IFormFile> EventImage)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,Title,Description,StartDate,ReservationRequired,ReservationSeats")] Event @event, List<IFormFile> EventImage)
         {
             if (id != @event.EventId)
             {
@@ -149,6 +150,8 @@ namespace Restaurant.Controllers
                         }
 
                         var event2 = _context.Events.First(e=>e.EventId == @event.EventId);
+                        @event.Reserved = event2.Reserved; // saving the reserved reservations
+
                         _context.Entry(event2).CurrentValues.SetValues(@event);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));

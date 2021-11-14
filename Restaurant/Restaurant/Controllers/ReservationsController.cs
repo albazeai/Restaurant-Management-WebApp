@@ -25,7 +25,7 @@ namespace Restaurant.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = await _context.Reservations.Include(e => e.Event).Where(e => e.Event.ReservationRequired == true).ToListAsync();
+            var applicationDbContext = await _context.Reservations.Include(e => e.Event).Where(e => e.Event.ReservationRequired == true).OrderBy(e=>e.Event.StartDate).ToListAsync();
             return View(applicationDbContext);
         }
 
@@ -61,6 +61,20 @@ namespace Restaurant.Controllers
             return View(reservation);
         }
 
+        [HttpPost]
+        public async Task<Event> ReservationDetail(int id)
+        {
+            try
+            {
+                var reservationDetail = await _context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+                return reservationDetail;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
         // GET: Reservations/Create
         public IActionResult Create()
         {
@@ -94,32 +108,48 @@ namespace Restaurant.Controllers
             
             if (ModelState.IsValid)
             {
-                if (reservation.EventId > 0)
-                {
-
-                    var reserved = await _context.Reservations.Where(e=>e.EventId == reservation.EventId).ToListAsync();  // get all the reservation
-                    var tables = await _context.Tables.ToListAsync();      // get the restuarant tables
-
-                    // if the total reservations is less then our restaurant tables, then add the new reservation request.
-                    if (reserved.Count < tables.Count)
+                    try
                     {
-                        reservation.Id = Guid.NewGuid();
-                        _context.Add(reservation);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
+                        var eventDetail = await _context.Events.FirstOrDefaultAsync(e => e.EventId == reservation.EventId);
+                        if (eventDetail != null)
+                        {
+                            var currentReservation = reservation.People + eventDetail.Reserved;
+                            if (eventDetail.Reserved != eventDetail.ReservationSeats && currentReservation <= eventDetail.ReservationSeats)
+                            {
+                                // update event reservation
+                                eventDetail.Reserved += reservation.People;
+                                // add a new reservation
+                                reservation.Id = Guid.NewGuid();
+                                _context.Add(reservation);
+                                await _context.SaveChangesAsync();
+                                return RedirectToAction(nameof(Index));
+                            }
+                            else
+                            {
+                                if ( (eventDetail.ReservationSeats - eventDetail.Reserved) > 0)
+                                {
+                                    ViewBag.ErrorMessage = $"Availabel Seates: {eventDetail.ReservationSeats - eventDetail.Reserved}. Cannot Add More!";
+                                }
+                                else
+                                {
+                                    ViewBag.ErrorMessage = "Sorry, We are Fully Booked!.";
+                                }
+                            }
+
+                        }
+                        
                     }
-                    else
+                    catch (Exception)
                     {
-                        ViewBag.ErrorMessage = "Sorry, We are Fully Booked!.";
+
                     }
 
-                }
-                else
-                {
-                    ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
-                    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
-                    return View(reservation);
-                }
+                //else
+                //{
+                //    ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
+                //    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
+                //    return View(reservation);
+                //}
                
             }
             ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
@@ -159,19 +189,67 @@ namespace Restaurant.Controllers
             {
                 try
                 {
-                    if (reservation.EventId.ToString() != null)
+                    try
                     {
-                        _context.Update(reservation);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
+                        var eventDetail = await _context.Events.FirstOrDefaultAsync(e => e.EventId == reservation.EventId);
+                        // check if number of people did not change, if true update other fields.
+                        var OldReservation =  _context.Reservations.First(r => r.Id == reservation.Id);
+                        if (eventDetail != null)
+                        {
+                            var currentReservation = reservation.People + eventDetail.Reserved;
+                            // check if details did not change (update checked box)
+                            if (reservation.People == OldReservation.People)
+                            {
+                                _context.Entry(OldReservation).CurrentValues.SetValues(reservation);
+                                await _context.SaveChangesAsync();
+                                return RedirectToAction(nameof(Index));
+                            }
+                            // update reservation seats 
+                            else if (eventDetail.Reserved != eventDetail.ReservationSeats && currentReservation <= eventDetail.ReservationSeats)
+                            {
+                                // update event reservation
+                                eventDetail.Reserved -= OldReservation.People; // remove people before update
+                                eventDetail.Reserved += reservation.People;    // add the new people 
+                                _context.Entry(OldReservation).CurrentValues.SetValues(reservation);
+                                await _context.SaveChangesAsync();
+                                return RedirectToAction(nameof(Index));
+                                //_context.Update(reservation);
+                                //await _context.SaveChangesAsync();
+                                //return RedirectToAction(nameof(Index));
+                            }
+                           
+                            else
+                            {
+                                if ((eventDetail.ReservationSeats - eventDetail.Reserved) > 0)
+                                {
+                                    ViewBag.ErrorMessage = $"Availabel Seates: {eventDetail.ReservationSeats - eventDetail.Reserved}. Cannot Add More!";
+                                }
+                                else
+                                {
+                                    ViewBag.ErrorMessage = "Sorry, We are Fully Booked!.";
+                                }
+                            }
+
+                        }
+
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
-                        ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
-                        return View(reservation);
+
                     }
-                   
+                    //if (reservation.EventId.ToString() != null)
+                    //{
+                    //    _context.Update(reservation);
+                    //    await _context.SaveChangesAsync();
+                    //    return RedirectToAction(nameof(Index));
+                    //}
+                    //else
+                    //{
+                    //    ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
+                    //    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
+                    //    return View(reservation);
+                    //}
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -214,10 +292,21 @@ namespace Restaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
-            _context.Reservations.Remove(reservation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var reservation = await _context.Reservations.FindAsync(id);
+                // update event reserved seats
+                var eventDetail = await _context.Events.FirstOrDefaultAsync(e => e.EventId == reservation.EventId);
+                eventDetail.Reserved -= reservation.People; // remove people before update
+                _context.Reservations.Remove(reservation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
         }
 
         private bool ReservationExists(Guid id)

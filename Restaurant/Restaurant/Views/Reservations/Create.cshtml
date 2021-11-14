@@ -5,17 +5,21 @@
 }
 
 <h1>Add New Reservation</h1>
-
+<div class="m-3" id="eventDetail"></div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="EventId" class="control-label"></label>
+                <select id="eventId" asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"><option value=""></option></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="People" class="control-label"></label>
-                <input asp-for="People" class="form-control" min="2" max="6" placeholder="2-6 Max" />
+                <input asp-for="People" class="form-control" min="1" placeholder="Number of people attending" />
                 <span asp-validation-for="People" class="text-danger"></span>
+                <p class="text-danger">@ViewBag.ErrorMessage</p>
             </div>
             <div class="form-group">
                 <label asp-for="ConfirmationName" class="control-label"></label>
@@ -24,13 +28,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="ConfirmationPhone" class="control-label"></label>
-                <input asp-for="ConfirmationPhone" class="form-control" />
+                <input id="phone" asp-for="ConfirmationPhone" class="form-control" placeholder="(123)-456-7890" maxlength="14" autocomplete="off"/>
                 <span asp-validation-for="ConfirmationPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"></select>
-                <p class="text-danger">@ViewBag.ErrorMessage</p>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-success" />
@@ -42,4 +41,72 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+
+    $(document).ready(function () {
+        // phone field formatter
+        $("#phone").keyup(function () {
+            var curchr = this.value.length;
+            var curval = $(this).val();
+            if (curchr == 3) {
+                $("#phone").val("(" + curval + ")" + "-");
+            } else if (curchr == 9) {
+                $("#phone").val(curval + "-");
+            }
+        });
+
+        // get selected event
+        initialMessage();
+        function initialMessage() {
+            let id = $("#eventId").val();
+            if (id !== "") {
+                $.ajax({
+                    type: "Post",
+                    url: "/Reservations/ReservationDetail",
+                    data: { id: id },
+                    success: function (data) {
+                        let total = data.reservationSeats - data.reserved;
+                        if (total <= 0) {
+                            $("#eventDetail").html('<h1 class="alert alert-danger">Sorry, We Are Fully Booked!</h1>')
+                        } else {
+                            $("#eventDetail").html(`<h1 class="alert alert-success">Available Seats: ${data.reservationSeats - data.reserved}</h1>`)
+                        }
+                    },
+                    error: function (req, status, error) {
+                    }
+                });
+            }
+
+        }
+        // listen to event change
+        $("#eventId").change(function () {
+            $("#eventDetail").html(' ');
+            let id = $("#eventId").val();
+            if (id !== "") {
+                $.ajax({
+                    type: "Post",
+                    url: "/Reservations/ReservationDetail",
+                    data: { id: id },
+                    success: function (data) {
+                        let total = data.reservationSeats - data.reserved;
+                        if (total <= 0) {
+                            $("#eventDetail").html('<h1 class="alert alert-danger">Sorry, We Are Fully Booked!</h1>')
+                        } else {
+                            $("#eventDetail").html(`<h1 class="alert alert-success">Available Seats: ${data.reservationSeats - data.reserved}</h1>`)
+                        }
+                    },
+                    error: function (req, status, error) {
+                    }
+                });
+            }
+
+
+        });
+    });
+</script>
+}
 
