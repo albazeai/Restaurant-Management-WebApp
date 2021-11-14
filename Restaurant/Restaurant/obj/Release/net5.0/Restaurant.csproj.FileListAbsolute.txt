@@ -438,7 +438,6 @@ D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Cashier\AddOrder.cshtml.g.cs
-D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Cashier\CashEvents.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Cashier\CashOrderStatus.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Cashier\GetUsedTables.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Cashier\Index.cshtml.g.cs
@@ -466,7 +465,6 @@ D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Home\Menu.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Kitchen\FoodMenu.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Kitchen\Index.cshtml.g.cs
-D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Kitchen\KitEvents.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Messages\Create.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Messages\Delete.cshtml.g.cs
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\Razor\Views\Messages\Details.cshtml.g.cs

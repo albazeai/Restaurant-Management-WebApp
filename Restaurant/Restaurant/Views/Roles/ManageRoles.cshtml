@@ -6,25 +6,50 @@
     ViewData["Title"] = "ManageRoles";
 }
 
+<h1 class="">@ViewBag.RoleName Role</h1>
 
-<div>
-    <h1 class="text-success">@ViewBag.RoleName Role</h1>
-    <hr />
-    @{
-        IdentityRole role = ViewBag.RoleName;
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Current Users Names
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 
-        var users = await userManager.GetUsersInRoleAsync(role.Name);
-        if (users != null)
-        {
-            <p class="text-info">Assigned Users:</p>
-            foreach (var user in users)
+        @{ 
+            try
             {
-                <h3>@user <span class="float-right btn btn-danger text-light"> @Html.ActionLink("Remove", "ManageUserRoles", new { roleName = role, userName = user })</span></h3>
-            }
-        }
-    }
+                IdentityRole role = ViewBag.RoleName;
+                var users = await userManager.GetUsersInRoleAsync(role.Name);
+                if (users != null)
+                {
+                    foreach (var user in users)
+                    {
 
-</div>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.UserName)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Remove", "ManageUserRoles", new { roleName = role, userName = user })
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            catch (Exception) { }
+
+
+        }
+
+
+    </tbody>
+</table>
+
 <div class="mt-5">
     <a class="btn btn-primary" asp-action="Index">Back</a>
 </div>

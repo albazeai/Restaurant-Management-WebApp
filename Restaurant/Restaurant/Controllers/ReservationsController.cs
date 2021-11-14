@@ -143,13 +143,6 @@ namespace Restaurant.Controllers
                     {
 
                     }
-
-                //else
-                //{
-                //    ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
-                //    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
-                //    return View(reservation);
-                //}
                
             }
             ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
@@ -193,29 +186,18 @@ namespace Restaurant.Controllers
                     {
                         var eventDetail = await _context.Events.FirstOrDefaultAsync(e => e.EventId == reservation.EventId);
                         // check if number of people did not change, if true update other fields.
-                        var OldReservation =  _context.Reservations.First(r => r.Id == reservation.Id);
+                        var oldReservation =  _context.Reservations.First(r => r.Id == reservation.Id);
                         if (eventDetail != null)
                         {
-                            var currentReservation = reservation.People + eventDetail.Reserved;
-                            // check if details did not change (update checked box)
-                            if (reservation.People == OldReservation.People)
-                            {
-                                _context.Entry(OldReservation).CurrentValues.SetValues(reservation);
-                                await _context.SaveChangesAsync();
-                                return RedirectToAction(nameof(Index));
-                            }
-                            // update reservation seats 
-                            else if (eventDetail.Reserved != eventDetail.ReservationSeats && currentReservation <= eventDetail.ReservationSeats)
+                            var currentReservation = reservation.People + (eventDetail.Reserved - oldReservation.People);
+                            if (currentReservation <= eventDetail.ReservationSeats)
                             {
                                 // update event reservation
-                                eventDetail.Reserved -= OldReservation.People; // remove people before update
+                                eventDetail.Reserved -= oldReservation.People; // remove people before update
                                 eventDetail.Reserved += reservation.People;    // add the new people 
-                                _context.Entry(OldReservation).CurrentValues.SetValues(reservation);
+                                _context.Entry(oldReservation).CurrentValues.SetValues(reservation);
                                 await _context.SaveChangesAsync();
                                 return RedirectToAction(nameof(Index));
-                                //_context.Update(reservation);
-                                //await _context.SaveChangesAsync();
-                                //return RedirectToAction(nameof(Index));
                             }
                            
                             else
@@ -237,18 +219,6 @@ namespace Restaurant.Controllers
                     {
 
                     }
-                    //if (reservation.EventId.ToString() != null)
-                    //{
-                    //    _context.Update(reservation);
-                    //    await _context.SaveChangesAsync();
-                    //    return RedirectToAction(nameof(Index));
-                    //}
-                    //else
-                    //{
-                    //    ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title", reservation.EventId);
-                    //    ViewBag.ErrorMessage = "No Events! Cannot add any reservation at this time.";
-                    //    return View(reservation);
-                    //}
 
                 }
                 catch (DbUpdateConcurrencyException)
