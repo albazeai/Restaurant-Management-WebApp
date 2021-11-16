@@ -57,12 +57,6 @@ namespace Restaurant.Controllers
             return null;
         }
 
-        //public async Task<IActionResult> GetUsedTables()
-        //{
-        //    var usedTables = await _context.Tables.Where(t => t.TableItems != "").ToListAsync();
-        //    return View(usedTables);
-        //}
-
         [HttpPost]
         public async Task<Table> TableDetails(int id)
         {
@@ -188,12 +182,6 @@ namespace Restaurant.Controllers
             }
             return null;
         }
-
-        // GET: Events
-        //public async Task<IActionResult> CashEvents()
-        //{
-        //    return View(await _context.Events.ToListAsync());
-        //}
 
         // POST: Messages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

@@ -9,22 +9,6 @@
 }
 
 
-
-@*<div class="bg-info p-3">
-        <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Menu
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" asp-controller="Drinks" asp-action="Index">Drinks</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-controller="Drinks" asp-action="Index">Foods</a>
-            </div>
-        </div>
-    </div>*@
-
-
 <style>
     #custom-left {
         height: 500px;
@@ -35,16 +19,7 @@
     }
 </style>
 <h1 class="bg-success text-center text-light p-3">Add Order</h1>
-
-@*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>*@
-@*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbar-collapse2">*@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    @*<a class="navbar-brand" href="#">Navbar</a>*@
     <button class="navbar-toggler m-1" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -83,54 +58,16 @@
 
                     </select>
                 </div>
-                @*<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                    <li class="nav-item">
-                        <a class="dropdown-item" asp-area="" asp-controller="Drinks" asp-action="Index">Drinks</a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li class="nav-item">
-                        <a class="dropdown-item" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>*@
             </li>
 
         </ul>
         <div class="float-right mr-2">
-            @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
             <button class="btn btn-success border border-white" id="saveBtn">Save</button>
             <button type="button" class="btn btn-success border border-white ml-1" data-toggle="modal" data-target="#staticBackdrop">
                 Save & Kitchen
             </button>
         </div>
     </div>
-    <!--<div class="float-right mr-2">-->
-        @*<a class="btn btn-success" asp-area="" asp-controller="Cashier" asp-action="AddOrder">Save</a>*@
-        <!--<button class="btn btn-success border border-white" id="saveBtn">Save</button>
-    </div>-->
-    @*send copy to kitchen form*@
-    @*<div class="float-right mr-2">
-            <button class="btn btn-success border border-white" id="toKitchenBtn">Save & Kitchen</button>
-        </div>
-        <div class="bg-light m-2" id="notesForm">
-            <form class="p-3" id="kitchenForm">
-                <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
-                <div class="form-group">
-                    <label for="notes">Order Notes (optional):</label>
-                    <textarea class="form-control" id="notes" rows="3"></textarea>
-                </div>
-                <button class="btn btn-warning" type="reset">Clear</button>
-                <button class="btn btn-success ml-1" type="submit">Submit</button>
-            </form>
-        </div>*@
-
-    @*statrt test for modal box*@
-
-    <!-- Button trigger modal -->
-    @*<button type="button" class="btn btn-success border border-white mr-2" data-toggle="modal" data-target="#staticBackdrop">
-        Save & Kitchen
-    </button>*@
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -143,6 +80,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <form class="p-3" id="kitchenForm">
                         <h3 class="bg-info text-light text-center p-2">Click Submit to Save & Send to Kitchen</h3>
                         <div class="form-group">
@@ -160,13 +98,9 @@
         </div>
     </div>
 
-    @*end test*@
-
-
     <div class="float-right ml-1">
         <a class="btn btn-danger border border-white" asp-area="" asp-controller="Cashier" asp-action="Index">Back</a>
     </div>
-    @*</div>*@
 </nav>
 
 <div class="container">
@@ -200,7 +134,6 @@
                                         {
                                             var val = item.DrinkName + " $" + item.Price + ",";
                                             <button class="btn btn-success m-2 buttons" value="@val">@item.DrinkName $@item.Price</button>
-                                            @*<button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>*@
                                         }
                                     }
                                 }
@@ -234,29 +167,6 @@
                             }
                         </div>
                     </div>
-
-                    <!--<div class="border border-success">
-                        <h2 class="bg-info text-light text-center p-3">Alcoholic</h2>-->
-                        @*<div class="p-3">
-                                @{
-                                    try
-                                    {
-                                        foreach (Drink item in Model.Drinks)
-                                        {
-                                            if (item.Category.CategoryName.Trim().Contains("Pizza"))
-                                            {
-                                                <button class="btn btn-success m-2 buttons" value="@item.DrinkName $@item.Price,">@item.DrinkName $@item.Price</button>
-
-                                            }
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
-
-                                    }
-                                }
-                            </div>*@
-                    <!--</div>-->
 
                 </div>
 

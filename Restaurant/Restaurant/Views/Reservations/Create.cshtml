@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ConfirmationName" class="control-label"></label>
-                <input asp-for="ConfirmationName" class="form-control" />
+                <input asp-for="ConfirmationName" class="form-control" autocomplete="off" />
                 <span asp-validation-for="ConfirmationName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,8 +50,8 @@
     $(document).ready(function () {
         // phone field formatter
         $("#phone").keyup(function () {
-            var curchr = this.value.length;
-            var curval = $(this).val();
+            var curchr = this.value.trim().length;
+            var curval = $(this).val().trim();
             if (curchr == 3) {
                 $("#phone").val("(" + curval + ")" + "-");
             } else if (curchr == 9) {

@@ -61,10 +61,33 @@ namespace Restaurant.Controllers
             if (ModelState.IsValid)
             {
                 DateTime today = DateTime.Today;  // get current date
-                DateTime newResDate = @event.StartDate.Date;
-                int checkDate = DateTime.Compare(today, newResDate);
+                DateTime newEventDate = @event.StartDate.Date;
+                int checkDate = DateTime.Compare(today, newEventDate);
+
+
                 if (checkDate <= 0)  // if current date less then or equle the today's date:
                 {
+                    // check if we have events on the same date
+                    var existingEvents = await _context.Events.OrderBy(e => e.StartDate).ToListAsync();
+                    foreach (var e in existingEvents)
+                    {
+                        // compareing the events title
+                        var existingTitle = String.Concat(e.Title.Where(c => !Char.IsWhiteSpace(c)));
+                        var newTitle = String.Concat(@event.Title.Where(c => !Char.IsWhiteSpace(c)));
+                        // comparing event dates
+                        int dateExist = DateTime.Compare(e.StartDate.Date, newEventDate);
+                        if (dateExist == 0)
+                        {
+                            ViewBag.ErrorMessage = "Cannot add event! You have an event happening on the same date!";
+                            return View(@event);
+                        }
+                        // check if event title is already exist
+                        else if (existingTitle.ToLower().Contains(newTitle.ToLower()))
+                        {
+                            ViewBag.TitleErrorMessage = "Cannot add event! Event Title Already Exist!";
+                            return View(@event);
+                        }
+                    }
                     // Read and save the uploaded image
                     foreach (var item in EventImage)
                     {
@@ -124,10 +147,31 @@ namespace Restaurant.Controllers
                 try
                 {
                     DateTime today = DateTime.Today;  // get current date
-                    DateTime newResDate = @event.StartDate.Date;
-                    int checkDate = DateTime.Compare(today, newResDate);
+                    DateTime newEventDate = @event.StartDate.Date;
+                    int checkDate = DateTime.Compare(today, newEventDate);
                     if (checkDate <= 0)  // if current date less then or equle the today's date:
                     {
+                        // check if we have events on the same date
+                        var existingEvents = await _context.Events.OrderBy(e => e.StartDate).ToListAsync();
+                        foreach (var e in existingEvents)
+                        {
+                            // compareing the events title
+                            var existingTitle = String.Concat(e.Title.Where(c => !Char.IsWhiteSpace(c)));
+                            var newTitle = String.Concat(@event.Title.Where(c => !Char.IsWhiteSpace(c)));
+                            // comparing event dates
+                            int dateExist = DateTime.Compare(e.StartDate.Date, newEventDate);
+                            if (dateExist == 0 && e.EventId != @event.EventId)
+                            {
+                                ViewBag.ErrorMessage = "Cannot add event! You have an event happening on the same date!";
+                                return View(@event);
+                            }
+                            // check if event name is already exist
+                            else if (existingTitle.ToLower().Contains(newTitle.ToLower()))
+                            {
+                                ViewBag.TitleErrorMessage = "Cannot add event! Event Title Already Exist!";
+                                return View(@event);
+                            }
+                        }
                         // Read and save the uploaded image
                         if (EventImage.Count() > 0)
                         {

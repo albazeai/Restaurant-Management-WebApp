@@ -12,7 +12,6 @@ D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\images\musician-image-1.jpg
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\js\addOrder.js
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\js\cashierIndex.js
-D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\js\kitchenOrders.js
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\js\site.js
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 D:\myProjects\RestaurantCapstone\Restaurant\Restaurant\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map

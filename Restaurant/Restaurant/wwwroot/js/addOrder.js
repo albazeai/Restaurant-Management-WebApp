@@ -23,7 +23,6 @@ $(document).ready(function () {
         } else {
             let items = addedItems.toString();
             if (items !== "") {
-                console.log("tabel items = " + addedItems.toString())
                 let tableId = $("#tableSelecter").val();
                 let notes = $("#notes").val();
                 if (notes.trim() === "")
@@ -53,7 +52,7 @@ $(document).ready(function () {
                                     window.location.href = "/Cashier/AddOrder";
                                 },
                                 error: function (req, status, error) {
-                                    console.log(msg);
+                                    //console.log(msg);
                                 }
                             });
                         } else {
@@ -62,7 +61,7 @@ $(document).ready(function () {
                        
                     },
                     error: function (req, status, error) {
-                        console.log(msg);
+                        //console.log(msg);
                     }
                 });
             } else {
@@ -137,7 +136,7 @@ $(document).ready(function () {
             }
         } else if (flag === "add") {
             $("#custom-left").html("");
-            addedItems.push(item.trim()); // add item 
+            addedItems.push(item.trim().toLowerCase()); // add item 
             let u = new Set(addedItems);
             for (const value of u.values()) {
                 let val = value;
@@ -155,10 +154,7 @@ $(document).ready(function () {
     }
     /* Removing items on clicking them */
     $('#custom-left').on('click', '.item', function () {
-        console.log("removed item value = " + $(this).val());
         orders("remove", $(this).val()); // remove item from order
-        console.log("added items after removing: " + addedItems);
-        //$(this).remove();
         subTotal($(this).val());  // update total
     });
 
@@ -238,7 +234,6 @@ $(document).ready(function () {
                     tableInfo(data);
                 },
                 error: function (req, status, error) {
-                    console.log(msg);
                 }
             });
         } else {
@@ -247,15 +242,13 @@ $(document).ready(function () {
 
         }
 
-    });
+    }); 
 
     function tableInfo(data) {
         if (data.tableItems !== null) {
-            console.log("table info is not null!")
             loadItems(data.tableItems);
             setTotal(2, data.total);
         } else {
-            console.log("table info is null!")
             addedItems = [];
             $("#custom-left").html("");
             setTotal(2, data.total);
@@ -341,7 +334,6 @@ $(document).ready(function () {
                     window.location.href = "/Cashier/AddOrder";
                 },
                 error: function (req, status, error) {
-                    console.log(msg);
                 }
             });
 

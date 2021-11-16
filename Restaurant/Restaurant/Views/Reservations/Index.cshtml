@@ -14,7 +14,7 @@
 <form asp-action="Index" method="post" class="form-inline mt-3 mb-3">
     <div class="form-group">
         <strong>Find By Name/Phone: &emsp;</strong>
-        <input name="searchString" class="form-control" placeholder="search" />
+        <input id="phone" name="searchString" class="form-control" placeholder="search" />
     </div>
     <div class="form-group ml-2">
         <input type="submit" value="Find" class="btn btn-success" /> &emsp;|&emsp;
@@ -83,7 +83,20 @@
                 if (v.prop("checked") === true) {
                     $(this).css({ "background-color": "lightgreen" })
                 }
-            });          
+            });
+            // phone field formatter
+            $("#phone").keyup(function () {
+                var curchr = this.value.trim().length;
+                var curval = $(this).val().trim();
+                if (isNaN(curval[1]) === false) {
+                    if (curchr === 3) {
+                        $("#phone").val("(" + curval + ")" + "-");
+                    } else if (curchr === 9) {
+                        $("#phone").val(curval + "-");
+                    }
+                }
+               
+            });
         });
     </script>
 }

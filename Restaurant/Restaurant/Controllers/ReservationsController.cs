@@ -87,6 +87,7 @@ namespace Restaurant.Controllers
                 }
 
                 ViewData["EventId"] = new SelectList(_context.Events.Where(e => e.ReservationRequired == true), "EventId", "Title");
+
                 return View();
             }
             catch (Exception)
